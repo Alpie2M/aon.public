@@ -45,20 +45,27 @@ export async function handler(event) {
     const senderRoleLine = empProfile?.[0]?.company_name
       ? `${empProfile[0].company_name}${empProfile[0].title ? ` - ${empProfile[0].title}` : ""}`
       : (context === "aday" ? "Aday profili" : "Topluluk uyesi");
+    const subject = context === "aday"
+      ? "AON — yetenek havuzun için yeni iletişim"
+      : "AON — yeni iletişim isteği";
+    const introHtml = context === "aday"
+      ? `<p><b>${senderName}</b> yetenek havuzundaki profilin hakkında daha fazla bilgi almak istiyor.</p>
+         <p>Aşağıda paylaştığı iletişim bilgilerini bulabilirsin.</p>`
+      : `<p><b>${senderName}</b> seninle AON üzerinden iletişime geçmek istiyor.</p>
+         <p style="margin:0 0 12px;color:#52607a">${senderRoleLine}</p>`;
 
     const lres = await fetch(`${SB}/auth/v1/admin/generate_link`, {
-      method: "POST",
-      headers: h,
+      method: "POST", headers: h,
       body: JSON.stringify({ type: "magiclink", email: toEmail, redirect_to: process.env.SITE_URL }),
     });
-    const link = await lres.json();
+    const link = (await lres.json());
     const action = link?.action_link || link?.properties?.action_link || process.env.SITE_URL;
 
     const html = `
       <div style="font-family:sans-serif;max-width:480px;margin:auto">
         <h2 style="color:#15213B">Yeni iletişim isteği</h2>
-        <p><b>${senderName}</b> seninle AON üzerinden iletişime geçmek istiyor.</p>
-        <p style="margin:0 0 12px;color:#52607a">${senderRoleLine}</p>
+        ${introHtml}
+        ${context === "aday" ? `<p style="margin:0 0 12px;color:#52607a">${senderRoleLine}</p>` : ""}
         <div style="background:#f6f8fb;border:1px solid #e6ebf2;border-radius:12px;padding:14px 16px;margin:16px 0">
           <div style="font-weight:700;margin-bottom:8px">İletişim bilgileri</div>
           <div>E-posta: ${emails.length ? emails.join(", ") : "Paylaşılmadı"}</div>
@@ -72,21 +79,11 @@ export async function handler(event) {
         </p>
         <p style="color:#7A879C;font-size:12px">Bu bağlantı seni otomatik olarak giriş yapmış halde siteye götürür.</p>
       </div>`;
-
     const send = await fetch("https://api.resend.com/emails", {
       method: "POST",
-      headers: {
-        Authorization: "Bearer " + process.env.RESEND_API_KEY,
-        "content-type": "application/json"
-      },
-      body: JSON.stringify({
-        from: process.env.FROM_EMAIL,
-        to: [toEmail],
-        subject: "AON — yeni iletişim isteği",
-        html
-      }),
+      headers: { Authorization: "Bearer " + process.env.RESEND_API_KEY, "content-type": "application/json" },
+      body: JSON.stringify({ from: process.env.FROM_EMAIL, to: [toEmail], subject, html }),
     });
-
     if (!send.ok) return { statusCode: 502, body: JSON.stringify({ error: await send.text() }) };
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };
   } catch (e) {
