@@ -6,422 +6,375 @@
 <title>AON — Alumni Opportunity Network</title>
 <style>
   :root{
-    --bg:#F4F6F9; --ink:#15213B; --ink-2:#3A465F; --muted:#7A879C; --faint:#A7B1C2;
-    --card:#FFFFFF; --line:#E4E8EF; --line-2:#EDF0F5;
-    --accent:#EE9F2E; --accent-d:#D88712; --match:#179B7E; --navy:#15213B;
-    --ring-bg:#EAEDF3;
-    --mono: ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
-    --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --bg:#F4F6F9;--ink:#15213B;--ink2:#3A465F;--muted:#7A879C;--faint:#A7B1C2;
+    --card:#fff;--line:#E4E8EF;--line2:#EDF0F5;--accent:#EE9F2E;--accentd:#D88712;--match:#179B7E;--navy:#15213B;--danger:#D14B45;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   }
-  *{box-sizing:border-box;}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;}
-  .mono{font-family:var(--mono);}
-  nav{position:sticky;top:0;z-index:40;background:rgba(244,246,249,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
-  .navin{max-width:1120px;margin:0 auto;padding:13px 20px;display:flex;align-items:center;gap:22px;}
-  .logo{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:-.02em;font-size:18px;cursor:pointer;}
-  .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(238,159,46,.18);}
-  .logo small{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.12em;}
-  .tabs{display:flex;gap:4px;overflow-x:auto;}
-  .tab{border:none;background:none;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--muted);padding:7px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;}
-  .tab:hover{color:var(--ink);background:var(--line-2);}
-  .tab.active{color:var(--navy);background:#fff;box-shadow:0 1px 0 var(--line) inset,0 0 0 1px var(--line);}
-  .navcta{margin-left:auto;display:flex;gap:8px;}
-  .btn{font-family:var(--sans);font-weight:700;font-size:13.5px;border-radius:10px;padding:9px 16px;cursor:pointer;border:1px solid transparent;transition:transform .12s,box-shadow .15s,background .15s;}
-  .btn:active{transform:translateY(1px);}
-  .btn.primary{background:var(--accent);color:#3a2700;box-shadow:0 2px 0 var(--accent-d);}
-  .btn.primary:hover{background:#f3a838;}
-  .btn.ghost{background:#fff;border-color:var(--line);color:var(--ink);}
-  .btn.ghost:hover{border-color:var(--faint);}
-  .btn.match{background:var(--match);color:#fff;}
-  .btn.match:hover{background:#15876e;}
-  .btn.sm{padding:6px 11px;font-size:12.5px;border-radius:8px;}
-  .btn.link{background:none;border:none;color:var(--muted);font-weight:600;padding:6px;}
-  .btn.link:hover{color:#D14B45;}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 20px;}
-  section[data-view]{display:none;padding:38px 0 70px;}
-  section[data-view].on{display:block;animation:fade .25s ease;}
-  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
-  .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center;padding-top:46px;}
-  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-d);font-weight:700;}
-  .hero h1{font-size:clamp(32px,5vw,52px);line-height:1.04;letter-spacing:-.03em;margin:14px 0 14px;font-weight:800;}
-  .hero h1 em{font-style:normal;color:var(--accent-d);}
-  .hero p.lead{font-size:17px;color:var(--ink-2);max-width:30em;margin:0 0 26px;}
-  .heroctas{display:flex;gap:12px;flex-wrap:wrap;}
-  .stats{display:flex;gap:26px;margin-top:30px;}
-  .stat .n{font-family:var(--mono);font-size:30px;font-weight:700;line-height:1;}
-  .stat .l{font-size:12px;color:var(--muted);margin-top:5px;}
-  .stat.s1 .n{color:var(--navy);} .stat.s2 .n{color:var(--accent-d);} .stat.s3 .n{color:var(--match);}
-  .heroart{background:linear-gradient(160deg,#1b2a4a,#15213B);border-radius:20px;padding:28px;color:#fff;position:relative;overflow:hidden;min-height:300px;}
-  .heroart h4{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9fb0d0;margin:0 0 14px;}
-  .how{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:60px;}
-  .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;}
-  .step .si{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent-d);}
-  .step h3{font-size:16px;margin:10px 0 6px;letter-spacing:-.01em;}
-  .step p{font-size:13.5px;color:var(--muted);margin:0;}
-  .pagehead{margin-bottom:24px;}
-  .pagehead h2{font-size:28px;letter-spacing:-.02em;margin:8px 0 6px;}
-  .pagehead p{color:var(--muted);margin:0;font-size:14px;}
-  .formcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;max-width:640px;}
-  .field{margin-bottom:16px;}
-  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
-  .field label .hint{font-weight:400;color:var(--faint);font-size:12px;}
-  .field input,.field textarea,.field select{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-family:var(--sans);font-size:14px;color:var(--ink);background:#fff;}
-  .field textarea{resize:vertical;min-height:84px;}
-  .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(238,159,46,.15);}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  .consent{font-size:12px;color:var(--muted);background:var(--line-2);border-radius:10px;padding:11px 13px;margin:6px 0 18px;}
-  .formfoot{display:flex;gap:10px;align-items:center;}
-  .formfoot .ok{color:var(--match);font-weight:600;font-size:13px;opacity:0;transition:opacity .2s;}
-  .formfoot .ok.show{opacity:1;}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;}
-  .entry{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;}
-  .entry .top{display:flex;align-items:flex-start;gap:12px;}
-  .avatar{width:42px;height:42px;border-radius:11px;flex:0 0 42px;display:grid;place-items:center;font-weight:800;font-size:16px;color:#fff;}
-  .entry h3{font-size:16px;margin:0;letter-spacing:-.01em;}
-  .entry .role{font-size:13px;color:var(--accent-d);font-weight:600;margin-top:1px;}
-  .entry .meta{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.04em;margin-left:auto;text-align:right;}
-  .entry p.bio{font-size:13.5px;color:var(--ink-2);margin:13px 0 12px;flex:1;}
-  .chips{display:flex;flex-wrap:wrap;gap:6px;}
-  .chip{font-family:var(--mono);font-size:11px;background:var(--line-2);color:var(--ink-2);border-radius:6px;padding:3px 8px;}
-  .chip.hit{background:rgba(23,155,126,.12);color:var(--match);}
-  .entry .foot{display:flex;align-items:center;gap:8px;margin-top:14px;border-top:1px solid var(--line-2);padding-top:12px;}
-  .tagline{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);}
-  .empty{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:38px;text-align:center;color:var(--muted);}
-  .empty b{color:var(--ink);}
-  .matchbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:22px;}
-  .seg{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:10px;padding:3px;}
-  .seg button{border:none;background:none;font-family:var(--sans);font-weight:600;font-size:13px;color:var(--muted);padding:7px 14px;border-radius:8px;cursor:pointer;}
-  .seg button.on{background:var(--navy);color:#fff;}
-  .matchbar select{border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-size:14px;min-width:240px;background:#fff;color:var(--ink);}
-  .matchlist{display:flex;flex-direction:column;gap:12px;}
-  .mrow{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;gap:16px;align-items:center;}
-  .ring{width:64px;height:64px;flex:0 0 64px;}
-  .ringtxt{font-family:var(--mono);font-size:18px;font-weight:700;fill:var(--ink);}
-  .mrow .body{flex:1;min-width:0;}
-  .mrow .body h3{font-size:15.5px;margin:0 0 2px;}
-  .mrow .body .sub{font-size:13px;color:var(--muted);margin-bottom:9px;}
-  .mrow .acts{display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
-  .aibox{margin-top:12px;background:var(--line-2);border-radius:11px;padding:14px;font-size:13.5px;color:var(--ink-2);white-space:pre-wrap;}
-  .aibox .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-d);display:block;margin-bottom:7px;}
-  .spin{display:inline-block;width:13px;height:13px;border:2px solid var(--faint);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:7px;}
-  @keyframes sp{to{transform:rotate(360deg);}}
-  footer{border-top:1px solid var(--line);margin-top:30px;}
-  .footin{max-width:1120px;margin:0 auto;padding:24px 20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:12.5px;color:var(--muted);}
-  .footin .gov{font-family:var(--mono);font-size:11px;letter-spacing:.04em;}
-  .srcpill{font-family:var(--mono);font-size:10px;letter-spacing:.05em;border-radius:999px;padding:3px 9px;border:1px solid var(--line);}
-  .srcpill.live{color:var(--match);border-color:rgba(23,155,126,.4);background:rgba(23,155,126,.08);}
-  .srcpill.preview{color:var(--accent-d);border-color:rgba(238,159,46,.4);background:rgba(238,159,46,.08);}
-  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-  @media (max-width:820px){.hero{grid-template-columns:1fr;}.heroart{order:-1;min-height:200px;}.how{grid-template-columns:1fr;}.row2{grid-template-columns:1fr;}.navcta .lbl{display:none;}}
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .mono{font-family:var(--mono)}
+  nav{position:sticky;top:0;z-index:40;background:rgba(244,246,249,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .navin{max-width:1080px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:18px;letter-spacing:-.02em}
+  .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(238,159,46,.18)}
+  .tabs{display:flex;gap:4px;overflow-x:auto}
+  .tab{border:none;background:none;font:600 14px var(--sans);color:var(--muted);padding:7px 12px;border-radius:8px;cursor:pointer;white-space:nowrap}
+  .tab.active{color:var(--navy);background:#fff;box-shadow:0 0 0 1px var(--line)}
+  .navend{margin-left:auto;display:flex;gap:10px;align-items:center;font-size:13px;color:var(--muted)}
+  .wrap{max-width:1080px;margin:0 auto;padding:30px 20px 80px}
+  .btn{font:700 13.5px var(--sans);border-radius:10px;padding:9px 16px;cursor:pointer;border:1px solid transparent}
+  .btn.primary{background:var(--accent);color:#3a2700;box-shadow:0 2px 0 var(--accentd)}
+  .btn.ghost{background:#fff;border-color:var(--line);color:var(--ink)}
+  .btn.match{background:var(--match);color:#fff}
+  .btn.dim{background:var(--line2);color:var(--ink2)}
+  .btn.sm{padding:6px 11px;font-size:12.5px}
+  .btn:disabled{opacity:.5;cursor:default}
+  .eyebrow{font:700 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--accentd)}
+  h1{font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;margin:10px 0}
+  h2{font-size:24px;letter-spacing:-.02em;margin:0 0 6px}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 22px}
+  .center{max-width:440px;margin:8vh auto 0;text-align:center}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+  .field{margin-bottom:14px;text-align:left}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+  .field input,.field textarea,.field select{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:14px var(--sans);color:var(--ink);background:#fff}
+  .field textarea{min-height:74px;resize:vertical}
+  .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(238,159,46,.15)}
+  .req::after{content:" *";color:var(--accentd)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .checks{margin:6px 0 16px;display:flex;flex-direction:column;gap:8px}
+  .checks label{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:var(--ink2);cursor:pointer}
+  .note{font-size:12px;color:var(--muted);background:var(--line2);border-radius:10px;padding:10px 12px;margin:8px 0 14px}
+  .msg{font-size:13px;margin-top:12px;min-height:18px}
+  .msg.ok{color:var(--match)}.msg.err{color:var(--danger)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .entry{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column}
+  .entry .top{display:flex;gap:12px;align-items:flex-start}
+  .avatar{width:40px;height:40px;border-radius:10px;flex:0 0 40px;display:grid;place-items:center;font-weight:800;color:#fff}
+  .entry h3{font-size:16px;margin:0}
+  .entry .role{font-size:12.5px;color:var(--accentd);font-weight:600}
+  .badge{font:600 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;border-radius:5px;padding:2px 7px;background:var(--line2);color:var(--ink2);margin-left:auto}
+  .entry p{font-size:13px;color:var(--ink2);margin:12px 0}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font:11px var(--mono);background:var(--line2);color:var(--ink2);border-radius:6px;padding:3px 8px}
+  .foot{margin-top:14px;border-top:1px solid var(--line2);padding-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .contact{font:12px var(--mono);color:var(--match);background:rgba(23,155,126,.1);border-radius:8px;padding:6px 10px;width:100%}
+  .locked{font:11px var(--mono);color:var(--faint)}
+  .empty{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:34px;text-align:center;color:var(--muted)}
+  .reqrow{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:center;margin-bottom:10px}
+  .reqrow .st{font:11px var(--mono);padding:3px 9px;border-radius:999px;margin-left:auto}
+  .st.pending{background:rgba(238,159,46,.14);color:var(--accentd)}.st.approved{background:rgba(23,155,126,.12);color:var(--match)}.st.declined{background:#f3e0df;color:var(--danger)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media(max-width:720px){.row2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<nav><div class="navin">
-  <div class="logo" onclick="go('home')"><span class="dot"></span>AON <small>BETA</small></div>
-  <div class="tabs">
-    <button class="tab" data-go="home">Ana sayfa</button>
-    <button class="tab" data-go="ops">Fırsatlar</button>
-    <button class="tab" data-go="cands">Adaylar</button>
-    <button class="tab" data-go="match">Eşleşmeler</button>
-  </div>
-  <div class="navcta">
-    <button class="btn ghost" onclick="go('addcand')"><span class="lbl">Aday </span>ol</button>
-    <button class="btn primary" onclick="go('addopp')">İlan ver</button>
-  </div>
+<nav id="nav" style="display:none"><div class="navin">
+  <div class="logo"><span class="dot"></span>AON</div>
+  <div class="tabs" id="tabs"></div>
+  <div class="navend"><span id="who"></span><button class="btn ghost sm" id="logout">Çıkış</button></div>
 </div></nav>
 
-<section data-view="home" class="on"><div class="wrap">
-  <div class="hero">
-    <div>
-      <div class="eyebrow">Alumni Opportunity Network</div>
-      <h1>Mezunlar arası <em>fırsat akışı</em>, mesajlaşmadan veriye.</h1>
-      <p class="lead">İş arayan mezunlarla fırsat sağlayan mezunları topluluk içinde sistematik olarak eşleştirir. Dağınık mesajlar yerine tek havuz, tek akış.</p>
-      <div class="heroctas">
-        <button class="btn primary" onclick="go('addopp')">İlan ver</button>
-        <button class="btn ghost" onclick="go('addcand')">Aday havuzuna katıl</button>
-      </div>
-      <div class="stats">
-        <div class="stat s1"><div class="n" id="stCand">0</div><div class="l">Aday</div></div>
-        <div class="stat s2"><div class="n" id="stOpp">0</div><div class="l">Açık fırsat</div></div>
-        <div class="stat s3"><div class="n" id="stMatch">0</div><div class="l">Potansiyel eşleşme</div></div>
-      </div>
-    </div>
-    <div class="heroart"><h4>Eşleşme ağı</h4><svg viewBox="0 0 320 230" width="100%" id="netsvg"></svg></div>
-  </div>
-  <div class="how">
-    <div class="step"><div class="si">01 · ADAY</div><h3>Profilini bırak</h3><p>Aradığın rolü ve becerilerini ekle. CV havuzuna girersin, fırsatlar sana gelir.</p></div>
-    <div class="step"><div class="si">02 · FIRSAT</div><h3>İlanı paylaş</h3><p>İş veren mezun rolü ve gereken becerileri tanımlar; ilan akışa düşer.</p></div>
-    <div class="step"><div class="si">03 · EŞLEŞME</div><h3>Skor ile eşleş</h3><p>Beceri örtüşmesinden bir <span class="mono">Match Score</span> üretilir; istersen AI ile değerlendirilir.</p></div>
-  </div>
-</div></section>
-
-<section data-view="addcand"><div class="wrap">
-  <div class="pagehead"><div class="eyebrow">Aday Sistemi</div><h2>Aday havuzuna katıl</h2><p>Bu bilgiler topluluk içinde görünür olur.</p></div>
-  <div class="formcard">
-    <div class="row2">
-      <div class="field"><label>Ad Soyad</label><input id="cName" placeholder="Orhun Y." /></div>
-      <div class="field"><label>Aradığın rol</label><input id="cRole" placeholder="Blockchain Developer" /></div>
-    </div>
-    <div class="field"><label>Beceriler <span class="hint">— virgülle ayır</span></label><input id="cSkills" placeholder="Solidity, Python, React, Smart Contracts" /></div>
-    <div class="field"><label>Kısa tanıtım</label><textarea id="cBio" placeholder="2–3 cümle: deneyim, ilgi alanı, ne arıyorsun."></textarea></div>
-    <div class="field"><label>İletişim <span class="hint">— e-posta / LinkedIn / Telegram</span></label><input id="cContact" placeholder="@kullanici veya e-posta" /></div>
-    <div class="consent">⚠ Topluluk politikası: Profilin havuza eklenir ve diğer mezunlarca görülebilir. Hassas bilgi (TC, adres, banka) ekleme.</div>
-    <div class="formfoot"><button class="btn primary" onclick="submitCand()">Havuza ekle</button><span class="ok" id="cOk">✓ Eklendi</span></div>
-  </div>
-</div></section>
-
-<section data-view="addopp"><div class="wrap">
-  <div class="pagehead"><div class="eyebrow">İş Fırsatı Sistemi</div><h2>İlan ver</h2><p>İlanın fırsat akışına düşer ve adaylarla skorlanır.</p></div>
-  <div class="formcard">
-    <div class="row2">
-      <div class="field"><label>Şirket / Topluluk</label><input id="oComp" placeholder="Develey" /></div>
-      <div class="field"><label>Rol</label><input id="oRole" placeholder="Werkstudent Finance" /></div>
-    </div>
-    <div class="row2">
-      <div class="field"><label>Konum</label><input id="oLoc" placeholder="München / Remote" /></div>
-      <div class="field"><label>Tür</label><select id="oType"><option>Tam zamanlı</option><option>Werkstudent</option><option>Staj</option><option>Freelance</option><option>Mentorluk</option></select></div>
-    </div>
-    <div class="field"><label>Gereken beceriler <span class="hint">— virgülle ayır</span></label><input id="oSkills" placeholder="Excel, SAP, Finance, Python" /></div>
-    <div class="field"><label>Açıklama</label><textarea id="oDesc" placeholder="Rol, beklenti, başvuru şekli."></textarea></div>
-    <div class="formfoot"><button class="btn primary" onclick="submitOpp()">İlanı yayınla</button><span class="ok" id="oOk">✓ Yayınlandı</span></div>
-  </div>
-</div></section>
-
-<section data-view="ops"><div class="wrap">
-  <div class="pagehead"><div class="eyebrow">Opportunity DB</div><h2>Açık fırsatlar</h2><p>Topluluğun paylaştığı güncel ilanlar.</p></div>
-  <div id="oppGrid" class="grid"></div>
-</div></section>
-
-<section data-view="cands"><div class="wrap">
-  <div class="pagehead"><div class="eyebrow">Candidate DB</div><h2>Aday havuzu</h2><p>Fırsat arayan mezunlar.</p></div>
-  <div id="candGrid" class="grid"></div>
-</div></section>
-
-<section data-view="match"><div class="wrap">
-  <div class="pagehead"><div class="eyebrow">AI Eşleşme</div><h2>Eşleşmeler</h2><p>Beceri örtüşmesinden Match Score üretilir.</p></div>
-  <div class="matchbar">
-    <div class="seg">
-      <button id="modeOpp" class="on" onclick="setMode('opp')">Fırsata göre</button>
-      <button id="modeCand" onclick="setMode('cand')">Adaya göre</button>
-    </div>
-    <select id="matchSel" onchange="renderMatches()"></select>
-  </div>
-  <div id="matchList" class="matchlist"></div>
-</div></section>
-
-<footer><div class="footin">
-  <div class="logo" style="font-size:15px"><span class="dot"></span>AON</div>
-  <div class="gov">Sponsor: Topluluk Yönetimi · PO: Orhun · Operasyon: Moderatörler</div>
-  <div style="margin-left:auto;display:flex;gap:10px;align-items:center"><span id="srcPill" class="srcpill">…</span><span>moderasyonlu · MVP</span></div>
-</div></footer>
+<div class="wrap" id="root"></div>
 
 <script type="module">
-/* ============================================================
-   AON — YAPILANDIRMA   (canlıya çıkmak için bu 3 satırı doldur)
-   ============================================================ */
-const SUPABASE_URL  = "https://xfztfbvtfoawewbeqdkl.supabase.co";   // Supabase → Settings → API → Project URL  (örn https://abcd.supabase.co)
-const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhmenRmYnZ0Zm9hd2V3YmVxZGtsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NDgxNzksImV4cCI6MjA5NzIyNDE3OX0.B9nhLWQGzl0vIAu7sZCopbvYNEGPfIY34jp4Kn6rwEQ";       // Supabase → Settings → API → anon public key
-const AI_ENABLED    = false;                    // AI değerlendirme fonksiyonunu kurduysan true yap
-/* ============================================================ */
+const SUPABASE_URL  = "https://xfztfbvtfoawewbeqdkl.supabase.co";   // v1'deki ile aynı
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhmenRmYnZ0Zm9hd2V3YmVxZGtsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NDgxNzksImV4cCI6MjA5NzIyNDE3OX0.B9nhLWQGzl0vIAu7sZCopbvYNEGPfIY34jp4Kn6rwEQ";
 
-const CONFIGURED = SUPABASE_URL.startsWith("http");
-const K_CAND="aon:candidates", K_OPP="aon:opportunities";
-let backend="memory", sb=null, memCand=null, memOpp=null;
-let CAND=[], OPP=[];
+const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
-const SEED_CAND=[
-  {id:"c-ex1",name:"Elif K.",role:"Frontend Developer",skills:["React","TypeScript","CSS","Figma"],bio:"2 yıl React deneyimi, remote startup arıyor.",contact:"@elifk",ts:Date.now()-86400000},
-  {id:"c-ex2",name:"Mert A.",role:"Data / Finance Analyst",skills:["Python","Excel","SQL","Finance"],bio:"İşletme mezunu, veri & finans. Werkstudent açık.",contact:"mert@mail.com",ts:Date.now()-43200000}
-];
-const SEED_OPP=[
-  {id:"o-ex1",company:"Develey",role:"Werkstudent Finance",location:"München",type:"Werkstudent",skills:["Excel","SAP","Finance","Python"],description:"Finans departmanı, 20s/hafta.",ts:Date.now()-50000000},
-  {id:"o-ex2",company:"ChainLabs",role:"Junior Frontend Dev",location:"Remote",type:"Tam zamanlı",skills:["React","TypeScript","CSS","Web3"],description:"Web3 dashboard ekibi.",ts:Date.now()-20000000}
-];
+const root=document.getElementById('root'), nav=document.getElementById('nav');
+let ME=null;            // community_members satırı
+let ROLE=null;          // 'aday' | 'isveren' | null
+let TAB='jobs';
+const esc=s=>(s||'').replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const COLORS=["#15213B","#EE9F2E","#179B7E","#5B6CC9","#C2557A"];
+const aColor=n=>{let h=0;for(const c of (n||'?'))h=(h*31+c.charCodeAt(0))%COLORS.length;return COLORS[h]};
+const ini=n=>(n||'?').split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const sk=s=>s.split(',').map(x=>x.trim()).filter(Boolean);
 
-/* ---------- STORE (otomatik mod: supabase | claude önizleme | memory) ---------- */
-async function dbGet(k){ try{const r=await window.storage.get(k,true);return r&&r.value?JSON.parse(r.value):null;}catch(e){return null;} }
-async function dbSet(k,v){ try{await window.storage.set(k,JSON.stringify(v),true);}catch(e){} }
-const hasClaude=()=>typeof window!=="undefined"&&window.storage&&typeof window.storage.get==="function";
+/* ---------- BOOT / AUTH ---------- */
+sb.auth.onAuthStateChange(()=>route());
+route();
 
-async function initStore(){
-  if(CONFIGURED){
-    backend="supabase";
-    const {createClient}=await import("https://esm.sh/@supabase/supabase-js@2");
-    sb=createClient(SUPABASE_URL,SUPABASE_ANON);
-  } else if(hasClaude()){ backend="claude"; }
-  else { backend="memory"; }
-}
-const rowC=r=>({id:r.id,name:r.name,role:r.role,skills:r.skills||[],bio:r.bio,contact:r.contact,ts:Date.parse(r.created_at)||Date.now()});
-const rowO=r=>({id:r.id,company:r.company,role:r.role,location:r.location,type:r.type,skills:r.skills||[],description:r.description,ts:Date.parse(r.created_at)||Date.now()});
-
-async function loadCand(){
-  if(backend==="supabase"){const{data,error}=await sb.from("candidates").select("*").order("created_at",{ascending:false});if(error){console.error(error);return[];}return(data||[]).map(rowC);}
-  if(backend==="claude"){let v=await dbGet(K_CAND);if(v===null){v=SEED_CAND.slice();await dbSet(K_CAND,v);}return v;}
-  if(memCand===null)memCand=SEED_CAND.slice();return memCand.slice();
-}
-async function loadOpp(){
-  if(backend==="supabase"){const{data,error}=await sb.from("opportunities").select("*").order("created_at",{ascending:false});if(error){console.error(error);return[];}return(data||[]).map(rowO);}
-  if(backend==="claude"){let v=await dbGet(K_OPP);if(v===null){v=SEED_OPP.slice();await dbSet(K_OPP,v);}return v;}
-  if(memOpp===null)memOpp=SEED_OPP.slice();return memOpp.slice();
-}
-async function addCand(c){
-  if(backend==="supabase"){const{error}=await sb.from("candidates").insert({name:c.name,role:c.role,skills:c.skills,bio:c.bio,contact:c.contact});if(error){alert("Kaydedilemedi: "+error.message);return false;}return true;}
-  if(backend==="claude"){let v=(await dbGet(K_CAND))||[];v.unshift(c);await dbSet(K_CAND,v);return true;}
-  if(memCand===null)memCand=[];memCand.unshift(c);return true;
-}
-async function addOpp(o){
-  if(backend==="supabase"){const{error}=await sb.from("opportunities").insert({company:o.company,role:o.role,location:o.location,type:o.type,skills:o.skills,description:o.description});if(error){alert("Kaydedilemedi: "+error.message);return false;}return true;}
-  if(backend==="claude"){let v=(await dbGet(K_OPP))||[];v.unshift(o);await dbSet(K_OPP,v);return true;}
-  if(memOpp===null)memOpp=[];memOpp.unshift(o);return true;
-}
-async function del(type,id){
-  if(backend==="supabase")return; // canlıda moderasyon Supabase panelinden yapılır
-  if(!confirm("Kaldırılsın mı?"))return;
-  if(type==="cand"){let v=(await dbGet(K_CAND).catch(()=>null))||memCand||[];v=v.filter(x=>x.id!==id);if(backend==="claude")await dbSet(K_CAND,v);else memCand=v;}
-  else{let v=(await dbGet(K_OPP).catch(()=>null))||memOpp||[];v=v.filter(x=>x.id!==id);if(backend==="claude")await dbSet(K_OPP,v);else memOpp=v;}
-  await refresh();
-}
-async function refresh(){ CAND=await loadCand(); OPP=await loadOpp(); refreshStats(); renderOpps(); renderCands(); buildMatchSelect(); }
-
-/* ---------- HELPERS ---------- */
-const norm=s=>s.toLowerCase().trim();
-const parseSkills=s=>s.split(",").map(x=>x.trim()).filter(Boolean);
-const tokens=s=>(s||"").toLowerCase().split(/[^a-zçğıöşü0-9]+/).filter(w=>w.length>2);
-const esc=s=>(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const COLORS=["#15213B","#EE9F2E","#179B7E","#5B6CC9","#C2557A","#3A8FBF"];
-const avatarColor=n=>{let h=0;for(const ch of n)h=(h*31+ch.charCodeAt(0))%COLORS.length;return COLORS[h];};
-const initials=n=>n.split(/\s+/).map(w=>w[0]).slice(0,2).join("").toUpperCase();
-const ago=ts=>{const d=(Date.now()-ts)/3.6e6;if(d<1)return"az önce";if(d<24)return Math.round(d)+" sa önce";return Math.round(d/24)+" gün önce";};
-const AI_ON=()=> (backend!=="supabase") || AI_ENABLED;
-
-function matchScore(cand,opp){
-  const cs=new Set((cand.skills||[]).map(norm)), os=(opp.skills||[]).map(norm);
-  const hit=os.filter(s=>cs.has(s)); const skill=os.length?hit.length/os.length:0;
-  const rw=tokens(opp.role), crw=new Set(tokens(cand.role));
-  const role=rw.length?rw.filter(w=>crw.has(w)).length/rw.length:0;
-  return {score:Math.round((skill*0.72+role*0.28)*100),hits:hit};
-}
-function ringSVG(score){
-  const r=26,c=2*Math.PI*r,off=c*(1-score/100);
-  const col=score>=70?"var(--match)":score>=40?"var(--accent)":"var(--faint)";
-  return '<svg class="ring" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="var(--ring-bg)" stroke-width="6"/><circle cx="32" cy="32" r="26" fill="none" stroke="'+col+'" stroke-width="6" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'" transform="rotate(-90 32 32)"/><text x="32" y="33" dominant-baseline="middle" text-anchor="middle" class="ringtxt">'+score+'</text></svg>';
+async function route(){
+  const { data:{ session } } = await sb.auth.getSession();
+  if(!session){ _uid=null; nav.style.display='none'; return viewLogin(); }
+  _uid=session.user.id;
+  // üye mi?
+  const { data:mem } = await sb.from('community_members').select('*').maybeSingle();
+  if(!mem){ nav.style.display='none'; return viewNotMember(session.user.email); }
+  ME=mem;
+  // profil var mı?
+  const uid=session.user.id;
+  const [{data:cp},{data:ep}] = await Promise.all([
+    sb.from('candidate_profiles').select('user_id').eq('user_id',uid).maybeSingle(),
+    sb.from('employer_profiles').select('user_id').eq('user_id',uid).maybeSingle()
+  ]);
+  ROLE = cp?'aday': ep?'isveren': null;
+  if(!ROLE){ nav.style.display='none'; return viewOnboard(); }
+  renderNav();
+  renderTab();
 }
 
-/* ---------- NAV ---------- */
-function go(v){
-  document.querySelectorAll('section[data-view]').forEach(s=>s.classList.toggle('on',s.dataset.view===v));
-  const map={home:'home',ops:'ops',cands:'cands',match:'match',addcand:'cands',addopp:'ops'};
-  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.go===map[v]));
-  window.scrollTo({top:0,behavior:'smooth'});
-  if(v==='match'){buildMatchSelect();renderMatches();}
-}
-document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>go(t.dataset.go)));
-
-/* ---------- STATS + NET ---------- */
-function refreshStats(){
-  document.getElementById('stCand').textContent=CAND.length;
-  document.getElementById('stOpp').textContent=OPP.length;
-  let m=0;CAND.forEach(c=>OPP.forEach(o=>{if(matchScore(c,o).score>=50)m++;}));
-  document.getElementById('stMatch').textContent=m;
-}
-function drawNet(){
-  const svg=document.getElementById('netsvg');if(!svg)return;
-  const L=[[60,55],[55,115],[65,175]],R=[[260,50],[265,120],[255,185]];let s='';
-  L.forEach(l=>R.forEach(r=>{const op=(Math.random()*0.4+0.08).toFixed(2);s+='<line x1="'+l[0]+'" y1="'+l[1]+'" x2="'+r[0]+'" y2="'+r[1]+'" stroke="#EE9F2E" stroke-opacity="'+op+'" stroke-width="1"/>';}));
-  L.forEach(l=>s+='<circle cx="'+l[0]+'" cy="'+l[1]+'" r="8" fill="#fff"/>');
-  R.forEach(r=>s+='<circle cx="'+r[0]+'" cy="'+r[1]+'" r="8" fill="#EE9F2E"/>');
-  s+='<text x="60" y="210" fill="#9fb0d0" font-size="10" font-family="monospace">ADAY</text><text x="232" y="210" fill="#EE9F2E" font-size="10" font-family="monospace">FIRSAT</text>';
-  svg.innerHTML=s;
+function viewLogin(){
+  root.innerHTML=`<div class="center">
+    <div class="eyebrow">Alumni Opportunity Network</div>
+    <h1>Topluluk girişi</h1>
+    <p class="sub">Sadece kayıtlı topluluk üyeleri. E-postanı gir, giriş bağlantısını yollayalım.</p>
+    <div class="card">
+      <div class="field"><label class="req">Üyelik e-postan</label><input id="email" type="email" placeholder="ad.soyad@..." /></div>
+      <button class="btn primary" id="send" style="width:100%">Giriş bağlantısı gönder</button>
+      <div class="msg" id="m"></div>
+    </div>
+    <p class="note" style="margin-top:14px">Bağlantı yalnızca topluluk listesinde kayıtlı e-postalara çalışır.</p>
+  </div>`;
+  document.getElementById('send').onclick=async()=>{
+    const email=document.getElementById('email').value.trim(); const m=document.getElementById('m');
+    if(!email){m.className='msg err';m.textContent='E-posta gerekli.';return;}
+    m.className='msg';m.textContent='Gönderiliyor…';
+    const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: window.location.origin+window.location.pathname }});
+    if(error){m.className='msg err';m.textContent='Hata: '+error.message;}
+    else{m.className='msg ok';m.textContent='Bağlantı gönderildi. E-postandaki linke tıkla.';}
+  };
 }
 
-/* ---------- CARDS ---------- */
-function candCard(c){
-  const rm=backend!=="supabase"?'<button class="btn link" style="margin-left:auto" onclick="del(\'cand\',\''+c.id+'\')">Kaldır</button>':'<span style="margin-left:auto"></span>';
-  return '<div class="entry"><div class="top"><div class="avatar" style="background:'+avatarColor(c.name)+'">'+initials(c.name)+'</div><div><h3>'+esc(c.name)+'</h3><div class="role">'+esc(c.role)+'</div></div><div class="meta">'+ago(c.ts)+'</div></div><p class="bio">'+esc(c.bio||'')+'</p><div class="chips">'+(c.skills||[]).map(s=>'<span class="chip">'+esc(s)+'</span>').join('')+'</div><div class="foot"><span class="tagline">'+esc(c.contact||'iletişim yok')+'</span>'+rm+'</div></div>';
+function viewNotMember(email){
+  root.innerHTML=`<div class="center"><div class="card">
+    <h2>Üyelik bulunamadı</h2>
+    <p class="sub"><b>${esc(email)}</b> topluluk üye listemizde kayıtlı değil. Üyeysen yönetimle iletişime geç.</p>
+    <button class="btn ghost" id="out">Çıkış yap</button></div></div>`;
+  document.getElementById('out').onclick=()=>sb.auth.signOut();
 }
-function oppCard(o){
-  const rm=backend!=="supabase"?'<button class="btn link" style="margin-left:auto" onclick="del(\'opp\',\''+o.id+'\')">Kaldır</button>':'<span style="margin-left:auto"></span>';
-  return '<div class="entry"><div class="top"><div class="avatar" style="background:'+avatarColor(o.company)+'">'+initials(o.company)+'</div><div><h3>'+esc(o.role)+'</h3><div class="role">'+esc(o.company)+' · '+esc(o.type||'')+'</div></div><div class="meta">'+ago(o.ts)+'</div></div><p class="bio">'+esc(o.description||'')+'</p><div class="chips">'+(o.skills||[]).map(s=>'<span class="chip">'+esc(s)+'</span>').join('')+'</div><div class="foot"><span class="tagline">📍 '+esc(o.location||'—')+'</span>'+rm+'</div></div>';
-}
-function renderCands(){const el=document.getElementById('candGrid');el.innerHTML=CAND.length?CAND.map(candCard).join(''):'<div class="empty"><b>Henüz aday yok.</b><br>İlk profili sen ekle → <i>Aday ol</i>.</div>';}
-function renderOpps(){const el=document.getElementById('oppGrid');el.innerHTML=OPP.length?OPP.map(oppCard).join(''):'<div class="empty"><b>Henüz fırsat yok.</b><br>İlk ilanı sen ver → <i>İlan ver</i>.</div>';}
 
-/* ---------- ADD ---------- */
-const uid=p=>p+"-"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
-async function submitCand(){
-  const name=document.getElementById('cName').value.trim(),role=document.getElementById('cRole').value.trim();
-  if(!name||!role){alert("Ad ve aranan rol gerekli.");return;}
-  const ok=await addCand({id:uid('c'),name,role,skills:parseSkills(document.getElementById('cSkills').value),bio:document.getElementById('cBio').value.trim(),contact:document.getElementById('cContact').value.trim(),ts:Date.now()});
-  if(!ok)return;
-  ['cName','cRole','cSkills','cBio','cContact'].forEach(i=>document.getElementById(i).value='');
-  flash('cOk');await refresh();
+/* ---------- ONBOARDING ---------- */
+function viewOnboard(){
+  root.innerHTML=`<div class="center" style="max-width:520px">
+    <div class="eyebrow">Hoş geldin ${esc(ME.first_name)}</div>
+    <h1>Nasıl katılıyorsun?</h1>
+    <p class="sub">Üye no: <span class="mono">${esc(ME.membership_number)}</span></p>
+    <div style="display:flex;gap:12px">
+      <button class="btn ghost" style="flex:1;padding:22px" id="r-aday"><b>Aday</b><br><span style="font-weight:400;color:var(--muted);font-size:12px">İş/fırsat arıyorum</span></button>
+      <button class="btn ghost" style="flex:1;padding:22px" id="r-isv"><b>İlan Veren</b><br><span style="font-weight:400;color:var(--muted);font-size:12px">Fırsat sunuyorum</span></button>
+    </div></div>`;
+  document.getElementById('r-aday').onclick=()=>formCandidate();
+  document.getElementById('r-isv').onclick=()=>formEmployer();
 }
-async function submitOpp(){
-  const company=document.getElementById('oComp').value.trim(),role=document.getElementById('oRole').value.trim();
-  if(!company||!role){alert("Şirket ve rol gerekli.");return;}
-  const ok=await addOpp({id:uid('o'),company,role,location:document.getElementById('oLoc').value.trim(),type:document.getElementById('oType').value,skills:parseSkills(document.getElementById('oSkills').value),description:document.getElementById('oDesc').value.trim(),ts:Date.now()});
-  if(!ok)return;
-  ['oComp','oRole','oLoc','oSkills','oDesc'].forEach(i=>document.getElementById(i).value='');
-  flash('oOk');await refresh();
-}
-function flash(id){const e=document.getElementById(id);e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1600);}
 
-/* ---------- MATCH ---------- */
-let MODE='opp';
-function setMode(m){MODE=m;document.getElementById('modeOpp').classList.toggle('on',m==='opp');document.getElementById('modeCand').classList.toggle('on',m==='cand');buildMatchSelect();renderMatches();}
-function buildMatchSelect(){
-  const sel=document.getElementById('matchSel');if(!sel)return;const list=MODE==='opp'?OPP:CAND;
-  sel.innerHTML=list.length?list.map((x,i)=>'<option value="'+i+'">'+esc(MODE==='opp'?(x.role+' — '+x.company):(x.name+' — '+x.role))+'</option>').join(''):'<option>— kayıt yok —</option>';
+const consentBlock=`<div class="note">KVKK / Aydınlatma metni — <i>buraya topluluğun resmi metnini ekle (hukukçu onaylı olmalı)</i>.</div>
+  <div class="checks">
+    <label><input type="checkbox" id="kvkk"> KVKK metnini okudum ve onaylıyorum</label>
+    <label><input type="checkbox" id="priv"> Aydınlatma metnini okudum ve onaylıyorum</label>
+  </div>`;
+
+function formCandidate(){
+  root.innerHTML=`<div style="max-width:640px;margin:0 auto">
+    <div class="eyebrow">Aday Profili</div><h2>Profilini oluştur</h2><p class="sub">İletişim bilgilerin gizli kalır; sadece onayladığın kişilere açılır.</p>
+    <div class="card">
+      <div class="row2"><div class="field"><label class="req">Ad</label><input id="fn" value="${esc(ME.first_name)}"></div><div class="field"><label class="req">Soyad</label><input id="ln" value="${esc(ME.last_name)}"></div></div>
+      <div class="field"><label class="req">Durum</label><select id="status"><option value="">Seç…</option><option value="ogrenci">Öğrenci</option><option value="mezun">Mezun</option></select></div>
+      <div class="row2"><div class="field"><label class="req">Telefon</label><input id="phone"></div><div class="field"><label class="req">E-posta</label><input id="cemail"></div></div>
+      <div class="row2"><div class="field"><label class="req">Okul / Üniversite</label><input id="school"></div><div class="field"><label class="req">Bölüm</label><input id="dept"></div></div>
+      <div class="row2"><div class="field"><label>Mezuniyet yılı</label><input id="gyear"></div><div class="field"><label>Şehir</label><input id="city"></div></div>
+      <div class="field"><label class="req">Kısa profil özeti</label><textarea id="summary"></textarea></div>
+      <div class="field"><label>Yetenekler <span style="font-weight:400;color:var(--faint)">— virgülle</span></label><input id="skills" placeholder="Python, Excel, Solidity"></div>
+      <div class="row2"><div class="field"><label>LinkedIn</label><input id="linkedin"></div><div class="field"><label>Portfolyo</label><input id="portfolio"></div></div>
+      <div class="field"><label class="req">CV (PDF)</label><input id="cv" type="file" accept="application/pdf"></div>
+      ${consentBlock}
+      <button class="btn primary" id="save" style="width:100%">Profili Kaydet</button>
+      <div class="msg" id="m"></div>
+    </div></div>`;
+  document.getElementById('save').onclick=saveCandidate;
 }
-function renderMatches(){
-  const wrap=document.getElementById('matchList'),sel=document.getElementById('matchSel');if(!wrap)return;
-  const base=MODE==='opp'?OPP:CAND,other=MODE==='opp'?CAND:OPP;
-  if(!base.length||!other.length){wrap.innerHTML='<div class="empty">Eşleşme için en az bir aday <b>ve</b> bir fırsat gerekli.</div>';return;}
-  const item=base[+sel.value||0];
-  const ranked=other.map(o=>{const{score,hits}=MODE==='opp'?matchScore(o,item):matchScore(item,o);return{o,score,hits};}).sort((a,b)=>b.score-a.score);
-  wrap.innerHTML=ranked.map((r,i)=>{
-    const t=r.o,title=MODE==='opp'?t.name:(t.role+' — '+t.company),sub=MODE==='opp'?t.role:((t.type||'')+' · '+(t.location||'—'));
-    const chips=(t.skills||[]).map(s=>'<span class="chip'+(r.hits.includes(norm(s))?' hit':'')+'">'+esc(s)+'</span>').join('');
-    const aiBtn=AI_ON()?'<button class="btn match sm" onclick="aiEval('+i+','+(+sel.value||0)+')">AI ile değerlendir</button>':'';
-    return '<div class="mrow">'+ringSVG(r.score)+'<div class="body"><h3>'+esc(title)+'</h3><div class="sub">'+esc(sub)+'</div><div class="chips">'+chips+'</div><div id="ai-'+i+'"></div></div><div class="acts">'+aiBtn+'<span class="mono" style="font-size:11px;color:var(--muted)">'+r.hits.length+' ortak beceri</span></div></div>';
+async function saveCandidate(){
+  const v=id=>document.getElementById(id).value.trim();
+  const m=document.getElementById('m');
+  const need={fn:v('fn'),ln:v('ln'),status:v('status'),phone:v('phone'),cemail:v('cemail'),school:v('school'),dept:v('dept'),summary:v('summary')};
+  if(Object.values(need).some(x=>!x)){m.className='msg err';m.textContent='Zorunlu (*) alanları doldur.';return;}
+  if(!document.getElementById('kvkk').checked||!document.getElementById('priv').checked){m.className='msg err';m.textContent='KVKK ve aydınlatma onayı zorunlu.';return;}
+  const file=document.getElementById('cv').files[0];
+  if(!file){m.className='msg err';m.textContent='CV yüklemek zorunlu.';return;}
+  m.className='msg';m.textContent='Kaydediliyor…';
+  const { data:{ user } } = await sb.auth.getUser(); const uid=user.id;
+  const path=`${uid}/cv.pdf`;
+  const up=await sb.storage.from('cvs').upload(path,file,{upsert:true,contentType:'application/pdf'});
+  if(up.error){m.className='msg err';m.textContent='CV yüklenemedi: '+up.error.message;return;}
+  const p1=await sb.from('candidate_profiles').upsert({user_id:uid,membership_number:ME.membership_number,first_name:need.fn,last_name:need.ln,status:need.status,school:need.school,department:need.dept,graduation_year:v('gyear'),city:v('city'),summary:need.summary,skills:sk(v('skills')),linkedin:v('linkedin'),portfolio:v('portfolio'),cv_path:path});
+  if(p1.error){m.className='msg err';m.textContent='Hata: '+p1.error.message;return;}
+  await sb.from('candidate_contacts').upsert({user_id:uid,phone:need.phone,email:need.cemail});
+  await sb.from('consents').insert({user_id:uid,membership_number:ME.membership_number,kvkk_approved:true,privacy_notice_approved:true});
+  route();
+}
+
+function formEmployer(){
+  root.innerHTML=`<div style="max-width:640px;margin:0 auto">
+    <div class="eyebrow">İlan Veren Profili</div><h2>Kendini tanıt</h2><p class="sub">İletişim bilgilerin gizli kalır.</p>
+    <div class="card">
+      <div class="row2"><div class="field"><label class="req">Ad</label><input id="fn" value="${esc(ME.first_name)}"></div><div class="field"><label class="req">Soyad</label><input id="ln" value="${esc(ME.last_name)}"></div></div>
+      <div class="row2"><div class="field"><label class="req">Telefon</label><input id="phone"></div><div class="field"><label class="req">E-posta</label><input id="eemail"></div></div>
+      <div class="row2"><div class="field"><label class="req">Kurum / Şirket</label><input id="company"></div><div class="field"><label class="req">Pozisyon / Unvan</label><input id="title"></div></div>
+      ${consentBlock}
+      <button class="btn primary" id="save" style="width:100%">Bilgileri Kaydet</button>
+      <div class="msg" id="m"></div>
+    </div></div>`;
+  document.getElementById('save').onclick=saveEmployer;
+}
+async function saveEmployer(){
+  const v=id=>document.getElementById(id).value.trim(); const m=document.getElementById('m');
+  const need={fn:v('fn'),ln:v('ln'),phone:v('phone'),eemail:v('eemail'),company:v('company'),title:v('title')};
+  if(Object.values(need).some(x=>!x)){m.className='msg err';m.textContent='Zorunlu alanları doldur.';return;}
+  if(!document.getElementById('kvkk').checked||!document.getElementById('priv').checked){m.className='msg err';m.textContent='KVKK ve aydınlatma onayı zorunlu.';return;}
+  m.className='msg';m.textContent='Kaydediliyor…';
+  const { data:{ user } } = await sb.auth.getUser(); const uid=user.id;
+  const p=await sb.from('employer_profiles').upsert({user_id:uid,membership_number:ME.membership_number,first_name:need.fn,last_name:need.ln,company_name:need.company,title:need.title});
+  if(p.error){m.className='msg err';m.textContent='Hata: '+p.error.message;return;}
+  await sb.from('employer_contacts').upsert({user_id:uid,phone:need.phone,email:need.eemail});
+  await sb.from('consents').insert({user_id:uid,membership_number:ME.membership_number,kvkk_approved:true,privacy_notice_approved:true});
+  route();
+}
+
+/* ---------- APP NAV ---------- */
+function renderNav(){
+  nav.style.display='block';
+  document.getElementById('who').textContent=`${ME.first_name} · ${ROLE==='aday'?'Aday':'İlan Veren'}`;
+  const tabs=[['jobs','Fırsatlar'],['cands','Adaylar'],['requests','İstekler']];
+  if(ROLE==='isveren') tabs.splice(2,0,['me','İlanlarım']);
+  document.getElementById('tabs').innerHTML=tabs.map(([k,l])=>`<button class="tab ${k===TAB?'active':''}" data-t="${k}">${l}</button>`).join('');
+  document.querySelectorAll('#tabs .tab').forEach(b=>b.onclick=()=>{TAB=b.dataset.t;renderNav();renderTab();});
+}
+document.getElementById('logout').onclick=()=>sb.auth.signOut();
+
+function renderTab(){
+  if(TAB==='jobs') return renderJobs();
+  if(TAB==='cands') return renderCands();
+  if(TAB==='me') return renderMyJobs();
+  if(TAB==='requests') return renderRequests();
+}
+
+/* ---------- JOBS ---------- */
+async function renderJobs(){
+  root.innerHTML=`<div class="eyebrow">Opportunity DB</div><h2>Fırsatlar</h2><p class="sub">Tüm üyeler görür. İletişim, ilan verenin onayıyla açılır.</p><div class="grid" id="g">Yükleniyor…</div>`;
+  const { data:jobs } = await sb.from('job_posts').select('*').eq('is_published',true).order('created_at',{ascending:false});
+  const { data:contacts } = await sb.from('employer_contacts').select('*'); // RLS: sadece izinli olanlar
+  const cmap=Object.fromEntries((contacts||[]).map(c=>[c.user_id,c]));
+  const reqs=await myRequests();
+  const g=document.getElementById('g');
+  if(!jobs||!jobs.length){g.outerHTML='<div class="empty">Henüz ilan yok.</div>';return;}
+  g.innerHTML=jobs.map(j=>{
+    const open=cmap[j.employer_user_id];
+    const r=reqs.find(x=>x.to_user===j.employer_user_id);
+    let action;
+    if(j.employer_user_id===meId()) action='<span class="locked">Kendi ilanın</span>';
+    else if(open) action=`<div class="contact">📞 ${esc(open.phone||'')} · ✉ ${esc(open.email||'')}</div>`;
+    else if(r&&r.status==='pending') action='<span class="st pending">İstek gönderildi</span>';
+    else if(r&&r.status==='declined') action='<span class="st declined">Reddedildi</span>';
+    else action=`<button class="btn match sm" data-apply="${j.employer_user_id}" data-ctx="${j.id}">Başvur / İletişim iste</button>`;
+    return `<div class="entry"><div class="top"><div class="avatar" style="background:${aColor(j.company_name)}">${ini(j.company_name)}</div>
+      <div><h3>${esc(j.title)}</h3><div class="role">${esc(j.company_name)} · ${esc(j.position||'')}</div></div>
+      <span class="badge">${esc(j.work_type||'')}</span></div>
+      <p>${esc(j.description||'')}</p>
+      <div class="chips">${j.city?`<span class="chip">📍 ${esc(j.city)}</span>`:''}${j.deadline?`<span class="chip">son: ${esc(j.deadline)}</span>`:''}</div>
+      ${j.qualifications?`<p style="font-size:12.5px"><b>Nitelikler:</b> ${esc(j.qualifications)}</p>`:''}
+      <div class="foot">${action}</div></div>`;
   }).join('');
+  bindApply();
 }
 
-/* ---------- AI ---------- */
-async function aiEval(rank,baseIdx){
-  const box=document.getElementById('ai-'+rank);box.innerHTML='<div class="aibox"><span class="spin"></span>AI değerlendiriyor…</div>';
-  const base=MODE==='opp'?OPP:CAND,other=MODE==='opp'?CAND:OPP,item=base[baseIdx];
-  const ranked=other.map(o=>({o,s:(MODE==='opp'?matchScore(o,item):matchScore(item,o)).score})).sort((a,b)=>b.s-a.s);
-  const cand=MODE==='opp'?ranked[rank].o:item, opp=MODE==='opp'?item:ranked[rank].o;
-  const prompt='Bir mezun iş ağında aday-fırsat uyumunu değerlendir. Türkçe, 3-4 cümle. Sonra "Görüşme soruları:" başlığıyla 2 kısa soru ver. Abartma, dürüst ol.\n\nADAY: '+cand.name+', aradığı rol: '+cand.role+', beceriler: '+(cand.skills||[]).join(', ')+'. '+(cand.bio||'')+'\nFIRSAT: '+opp.company+' — '+opp.role+' ('+(opp.type||'')+'), gereken beceriler: '+(opp.skills||[]).join(', ')+'. '+(opp.description||'');
-  try{
-    let text;
-    if(backend==="supabase"){
-      const r=await fetch('/.netlify/functions/match-ai',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({prompt})});
-      const d=await r.json();text=d.text||d.error;
-    }else{
-      const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,messages:[{role:"user",content:prompt}]})});
-      const d=await r.json();text=(d.content||[]).filter(b=>b.type==="text").map(b=>b.text).join("\n").trim();
-    }
-    box.innerHTML='<div class="aibox"><span class="lbl">AI değerlendirmesi</span>'+esc(text||"Yanıt alınamadı.")+'</div>';
-  }catch(e){
-    box.innerHTML='<div class="aibox"><span class="lbl">AI değerlendirmesi</span>AI servisine ulaşılamadı. Match Score beceri örtüşmesinden hesaplanmaya devam ediyor.</div>';
-  }
+/* ---------- CANDIDATES ---------- */
+async function renderCands(){
+  root.innerHTML=`<div class="eyebrow">Candidate DB</div><h2>Adaylar</h2><p class="sub">Tüm üyeler görür. İletişim, adayın onayıyla açılır.</p><div class="grid" id="g">Yükleniyor…</div>`;
+  const { data:cands } = await sb.from('candidate_profiles').select('*').order('created_at',{ascending:false});
+  const { data:contacts } = await sb.from('candidate_contacts').select('*');
+  const cmap=Object.fromEntries((contacts||[]).map(c=>[c.user_id,c]));
+  const reqs=await myRequests();
+  const g=document.getElementById('g');
+  if(!cands||!cands.length){g.outerHTML='<div class="empty">Henüz aday yok.</div>';return;}
+  g.innerHTML=cands.map(c=>{
+    const open=cmap[c.user_id];
+    const r=reqs.find(x=>x.to_user===c.user_id);
+    let action;
+    if(c.user_id===meId()) action='<span class="locked">Senin profilin</span>';
+    else if(open) action=`<div class="contact">📞 ${esc(open.phone||'')} · ✉ ${esc(open.email||'')}</div>`;
+    else if(r&&r.status==='pending') action='<span class="st pending">İstek gönderildi</span>';
+    else if(r&&r.status==='declined') action='<span class="st declined">Reddedildi</span>';
+    else action=`<button class="btn match sm" data-apply="${c.user_id}" data-ctx="aday">İletişim iste</button>`;
+    return `<div class="entry"><div class="top"><div class="avatar" style="background:${aColor(c.first_name)}">${ini(c.first_name+' '+c.last_name)}</div>
+      <div><h3>${esc(c.first_name)} ${esc(c.last_name)}</h3><div class="role">${esc(c.department||'')} · ${esc(c.school||'')}</div></div>
+      <span class="badge">${c.status==='ogrenci'?'Öğrenci':'Mezun'}</span></div>
+      <p>${esc(c.summary||'')}</p>
+      <div class="chips">${(c.skills||[]).map(s=>`<span class="chip">${esc(s)}</span>`).join('')}${c.cv_path?'<span class="chip">CV ✓</span>':''}</div>
+      <div class="foot">${action}</div></div>`;
+  }).join('');
+  bindApply();
 }
 
-/* ---------- expose for inline handlers ---------- */
-Object.assign(window,{go,submitCand,submitOpp,setMode,renderMatches,aiEval,del});
+function bindApply(){
+  document.querySelectorAll('[data-apply]').forEach(b=>b.onclick=async()=>{
+    b.disabled=true;b.textContent='Gönderiliyor…';
+    const to=b.dataset.apply, ctx=b.dataset.ctx;
+    const ins=await sb.from('contact_requests').insert({from_user:meId(),to_user:to,context:ctx});
+    if(ins.error){b.disabled=false;b.textContent='Tekrar dene';alert('Hata: '+ins.error.message);return;}
+    // e-posta bildirimi (opsiyonel fonksiyon; yoksa sessiz geçer)
+    try{ await fetch('/.netlify/functions/notify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({toUserId:to,fromName:ME.first_name+' '+ME.last_name})}); }catch(e){}
+    renderTab();
+  });
+}
 
-/* ---------- BOOT ---------- */
-(async function(){
-  await initStore();
-  const pill=document.getElementById('srcPill');
-  if(backend==="supabase"){pill.textContent="● canlı veri";pill.className="srcpill live";}
-  else{pill.textContent="● önizleme";pill.className="srcpill preview";}
-  drawNet();
-  await refresh();
-})();
+/* ---------- REQUESTS INBOX ---------- */
+async function myRequests(){
+  const { data } = await sb.from('contact_requests').select('*');
+  return data||[];
+}
+async function renderRequests(){
+  root.innerHTML=`<div class="eyebrow">İstekler</div><h2>İletişim istekleri</h2><p class="sub">Sana gelenleri onayla/reddet; onayladığında iletişiminiz karşılıklı açılır.</p><div id="in"></div><h3 style="margin-top:26px;font-size:15px">Gönderdiklerin</h3><div id="out"></div>`;
+  const reqs=await myRequests();
+  const incoming=reqs.filter(r=>r.to_user===meId());
+  const outgoing=reqs.filter(r=>r.from_user===meId());
+  document.getElementById('in').innerHTML = incoming.length?incoming.map(r=>{
+    if(r.status==='pending') return `<div class="reqrow"><b>Bir üye seninle iletişime geçmek istiyor</b><div style="margin-left:auto;display:flex;gap:8px"><button class="btn match sm" data-ok="${r.id}">Onayla</button><button class="btn dim sm" data-no="${r.id}">Reddet</button></div></div>`;
+    return `<div class="reqrow"><span>İstek</span><span class="st ${r.status}">${r.status==='approved'?'Onayladın':'Reddettin'}</span></div>`;
+  }).join(''):'<div class="empty">Gelen istek yok.</div>';
+  document.getElementById('out').innerHTML = outgoing.length?outgoing.map(r=>`<div class="reqrow"><span>İletişim isteği gönderildi</span><span class="st ${r.status}">${({pending:'Bekliyor',approved:'Onaylandı',declined:'Reddedildi'})[r.status]}</span></div>`).join(''):'<div class="empty">Gönderdiğin istek yok.</div>';
+  document.querySelectorAll('[data-ok]').forEach(b=>b.onclick=()=>decide(b.dataset.ok,'approved'));
+  document.querySelectorAll('[data-no]').forEach(b=>b.onclick=()=>decide(b.dataset.no,'declined'));
+}
+async function decide(id,status){
+  const { error }=await sb.from('contact_requests').update({status,decided_at:new Date().toISOString()}).eq('id',id);
+  if(error){alert('Hata: '+error.message);return;}
+  renderRequests();
+}
+
+/* ---------- EMPLOYER: MY JOBS ---------- */
+async function renderMyJobs(){
+  root.innerHTML=`<div class="eyebrow">İlanlarım</div><h2>İlan ver & yönet</h2>
+    <div class="card" style="max-width:640px;margin-bottom:24px">
+      <div class="field"><label class="req">İlan başlığı</label><input id="j_title"></div>
+      <div class="row2"><div class="field"><label class="req">Kurum / Şirket</label><input id="j_comp" value="${esc('')}"></div><div class="field"><label>Pozisyon</label><input id="j_pos"></div></div>
+      <div class="row2"><div class="field"><label>Çalışma tipi</label><select id="j_type"><option>Tam zamanlı</option><option>Yarı zamanlı</option><option>Staj</option><option>Remote</option><option>Hibrit</option><option>Ofis</option></select></div><div class="field"><label>Şehir</label><input id="j_city"></div></div>
+      <div class="field"><label class="req">Açıklama</label><textarea id="j_desc"></textarea></div>
+      <div class="field"><label>Aranan nitelikler</label><textarea id="j_qual"></textarea></div>
+      <div class="field"><label>Son başvuru tarihi</label><input id="j_dl" type="date"></div>
+      <button class="btn primary" id="j_save" style="width:100%">İlanı Yayınla</button><div class="msg" id="jm"></div>
+    </div>
+    <div class="grid" id="myg"></div>`;
+  document.getElementById('j_save').onclick=postJob;
+  const { data:mine }=await sb.from('job_posts').select('*').eq('employer_user_id',meId()).order('created_at',{ascending:false});
+  document.getElementById('myg').innerHTML=(mine||[]).map(j=>`<div class="entry"><div class="top"><div><h3>${esc(j.title)}</h3><div class="role">${esc(j.company_name)}</div></div><span class="badge">${esc(j.work_type||'')}</span></div><p>${esc(j.description||'')}</p><div class="foot"><button class="btn dim sm" data-del="${j.id}">Sil</button></div></div>`).join('')||'<div class="empty">Henüz ilanın yok.</div>';
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(confirm('İlan silinsin mi?')){await sb.from('job_posts').delete().eq('id',b.dataset.del);renderMyJobs();}});
+}
+async function postJob(){
+  const v=id=>document.getElementById(id).value.trim(); const m=document.getElementById('jm');
+  if(!v('j_title')||!v('j_comp')||!v('j_desc')){m.className='msg err';m.textContent='Başlık, kurum ve açıklama zorunlu.';return;}
+  m.className='msg';m.textContent='Yayınlanıyor…';
+  const { error }=await sb.from('job_posts').insert({employer_user_id:meId(),title:v('j_title'),company_name:v('j_comp'),position:v('j_pos'),work_type:v('j_type'),city:v('j_city'),description:v('j_desc'),qualifications:v('j_qual'),deadline:v('j_dl')||null});
+  if(error){m.className='msg err';m.textContent='Hata: '+error.message;return;}
+  renderMyJobs();
+}
+
+/* ---------- util ---------- */
+let _uid=null;
+function meId(){ return _uid; }
+sb.auth.getUser().then(({data})=>{ if(data.user)_uid=data.user.id; });
 </script>
 </body>
 </html>
