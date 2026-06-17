@@ -208,7 +208,8 @@ const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
 const root=document.getElementById('root');
 let ME=null;
-let ROLE=null;
+let HAS_CAND=false;
+let HAS_EMP=false;
 let TAB='home';
 let pendingRole=localStorage.getItem('imt_pending_role');
 
@@ -217,6 +218,7 @@ const COLORS=["#2cc7a2","#e8b14c","#4b7bec","#d16ba5","#7dd3fc"];
 const aColor=n=>{let h=0;for(const c of (n||'?')) h=(h*31+c.charCodeAt(0))%COLORS.length; return COLORS[h];};
 const ini=n=>(n||'?').split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
 const sk=s=>(s||'').split(',').map(x=>x.trim()).filter(Boolean);
+const memberLabel=()=>HAS_CAND&&HAS_EMP?'Aday + İlan Veren':HAS_CAND?'Aday':HAS_EMP?'İlan Veren':'Üye';
 
 sb.auth.onAuthStateChange(()=>route());
 route();
@@ -225,7 +227,7 @@ async function route(){
   const { data:{ session } } = await sb.auth.getSession();
 
   if(!session){
-    ME=null; ROLE=null; _uid=null;
+    ME=null; HAS_CAND=false; HAS_EMP=false; _uid=null;
     renderPublicNav();
     return renderPublicTab();
   }
@@ -251,12 +253,19 @@ async function route(){
     sb.from('employer_profiles').select('user_id').eq('user_id',uid).maybeSingle()
   ]);
 
-  ROLE = cp ? 'aday' : ep ? 'isveren' : null;
+  HAS_CAND=!!cp;
+  HAS_EMP=!!ep;
 
-  if(!ROLE){
+  if(pendingRole==='aday' && !HAS_CAND){
     renderMemberNav();
-    if(pendingRole==='aday') return formCandidate();
-    if(pendingRole==='isveren') return formEmployer();
+    return formCandidate();
+  }
+  if(pendingRole==='isveren' && !HAS_EMP){
+    renderMemberNav();
+    return formEmployer();
+  }
+  if(!HAS_CAND && !HAS_EMP){
+    renderMemberNav();
     return viewOnboard();
   }
 
@@ -284,8 +293,7 @@ function renderPublicNav(){
 }
 
 function renderMemberNav(){
-  const tabs=[['cands','Yetenek Havuzu'],['jobs','İlanlar'],['requests','İstekler']];
-  if(ROLE==='isveren') tabs.push(['me','İlan Ver']);
+  const tabs=[['cands','Yetenek Havuzu'],['jobs','İlanlar'],['me','İlan Ver'],['requests','İstekler']];
   document.getElementById('tabs').innerHTML=tabs.map(([k,l])=>
     `<button class="tab ${TAB===k?'active':''}" data-t="${k}">${l}</button>`
   ).join('');
@@ -294,7 +302,7 @@ function renderMemberNav(){
   });
 
   document.getElementById('navend').innerHTML=`
-    <span class="who">${esc(ME.first_name)} · ${ROLE==='aday'?'Aday':'İlan Veren'}</span>
+    <span class="who">${esc(ME.first_name)} · ${memberLabel()}</span>
     <button class="btn ghost sm" id="logout">Çıkış</button>
   `;
   document.getElementById('logout').onclick=()=>sb.auth.signOut();
@@ -706,12 +714,19 @@ async function saveEmployer(){
 
 /* ---------- LISTS ---------- */
 async function renderJobs(isPublic=false){
+  const memberCta=isPublic ? '' : `<div class="previewActions"><button class="btn ${HAS_EMP?'primary':'ghost'} sm" id="jobs-cta">${HAS_EMP?'İlan ver / yönet':'İlan veren profilini tamamla'}</button></div>`;
   root.innerHTML=`
-    <div class="eyebrow">İlanlar</div>
-    <h2>Topluluk ilanları</h2>
-    <p class="sub">${isPublic ? 'İlanlar herkese görünür. Etkileşim ve ilan verme için giriş gerekir.' : 'Üyeler ilanları görür, talep bırakır ve iletişimi onay akışıyla açar.'}</p>
+    <div class="sectionHead">
+      <div>
+        <div class="eyebrow">İlanlar</div>
+        <h2>Topluluk ilanları</h2>
+        <p>${isPublic ? 'İlanlar herkese görünür. Etkileşim ve ilan verme için giriş gerekir.' : 'Üyeler ilanları görür, talep bırakır ve iletişimi onay akışıyla açar.'}</p>
+      </div>
+      ${memberCta}
+    </div>
     <div class="grid" id="g">Yükleniyor…</div>
   `;
+  if(!isPublic) document.getElementById('jobs-cta').onclick=()=>{ TAB='me'; renderMemberNav(); renderMyJobs(); };
 
   const { data:jobs } = await sb.from('job_posts').select('*').eq('is_published',true).order('created_at',{ascending:false});
   const { data:contacts } = isPublic ? { data:[] } : await sb.from('employer_contacts').select('*');
@@ -758,12 +773,19 @@ async function renderJobs(isPublic=false){
 }
 
 async function renderCands(isPublic=false){
+  const memberCta=isPublic ? '' : `<div class="previewActions"><button class="btn ${HAS_CAND?'ghost':'primary'} sm" id="cands-cta">${HAS_CAND?'Profilimi düzenle':'Yetenek havuzuna katıl'}</button></div>`;
   root.innerHTML=`
-    <div class="eyebrow">Yetenek Havuzu</div>
-    <h2>Topluluğun profesyonel yetenek havuzu</h2>
-    <p class="sub">${isPublic ? 'Profil önizlemeleri herkese görünür. İletişim ve katılım için giriş gerekir.' : 'Üyeler profilleri tam görür; iletişim aday onayıyla açılır.'}</p>
+    <div class="sectionHead">
+      <div>
+        <div class="eyebrow">Yetenek Havuzu</div>
+        <h2>Topluluğun profesyonel yetenek havuzu</h2>
+        <p>${isPublic ? 'Profil önizlemeleri herkese görünür. İletişim ve katılım için giriş gerekir.' : 'Üyeler profilleri tam görür; iletişim aday onayıyla açılır.'}</p>
+      </div>
+      ${memberCta}
+    </div>
     <div class="grid" id="g">Yükleniyor…</div>
   `;
+  if(!isPublic) document.getElementById('cands-cta').onclick=()=>formCandidate();
 
   const { data:cands } = await sb.from('candidate_profiles').select('*').order('created_at',{ascending:false});
   const { data:contacts } = isPublic ? { data:[] } : await sb.from('candidate_contacts').select('*');
@@ -877,6 +899,8 @@ async function decide(id,status){
 
 /* ---------- EMPLOYER JOBS ---------- */
 async function renderMyJobs(){
+  if(!HAS_EMP) return formEmployer();
+
   root.innerHTML=`
     <div class="eyebrow">İlan Yönetimi</div>
     <h2>İlan ver</h2>
