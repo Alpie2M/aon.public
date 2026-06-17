@@ -811,8 +811,7 @@ async function renderCands(isPublic=false){
     const displayName = isPublic ? `${esc(c.first_name)} ${esc((c.last_name||'')[0]||'')}.` : `${esc(c.first_name)} ${esc(c.last_name)}`;
 
     if(isPublic) action=`<button class="btn ghost sm" data-role="aday">Katılmak için giriş yap</button>`;
-    else if(c.user_id===meId()) action=`<button class="btn dim sm" data-del-cand="${c.user_id}">Paylaşımı sil</button>`;
-    else if(open) action=`<div class="contact">📞 ${esc(open.phone||'')} · ✉ ${esc(open.email||'')}</div>`;
+    else if(c.user_id===meId()) action=`<button class="btn dim sm" data-del-cand="${c.user_id}">Paylaşımı sil</button>`;    else if(open) action=`<div class="contact">📞 ${esc(open.phone||'')} · ✉ ${esc(open.email||'')}</div>`;
     else if(r && r.status==='pending') action=`<span class="st pending">Bilgilerin iletildi</span>`;
     else if(r && r.status==='declined') action=`<span class="st declined">Reddedildi</span>`;
     else action=`<button class="btn match sm" data-apply="${c.user_id}" data-ctx="aday">İletişim bilgilerini gönder</button>`;
