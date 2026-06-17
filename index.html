@@ -201,7 +201,7 @@
 
 <script type="module">
 const SUPABASE_URL  = "https://xfztfbvtfoawewbeqdkl.supabase.co";
-const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhmenRmYnZ0Zm9hd2V3YmVxZGtsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NDgxNzksImV4cCI6MjA5NzIyNDE3OX0.B9nhLWQGzl0vIAu7sZCopbvYNEGPfIY34jp4Kn6rwEQ";
+const SUPABASE_ANON = "YOUR_SUPABASE_ANON_KEY";
 
 const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
@@ -348,7 +348,7 @@ async function viewLanding(isMember){
         <p class="lead">IMT Kariyer, topluluk üyelerimizin kariyer fırsatları için oluşturulmuş sade ve güvenli bir alan. Yetenek görünürlüğü, kontrollü etkileşim ve birlikte çalışma imkanları tek çatı altında buluşur.</p>
         <div class="heroCtas">
           <button class="btn primary" id="cta-join">Yetenek Havuzuna Katıl</button>
-          <button class="btn ghost" id="cta-browse">İlanları Gör</button>
+                    <button class="btn ghost" id="cta-browse">İlanları Gör</button>
         </div>
         <div class="metrics">
           <div class="metric"><b>Gizlilik odaklı</b><span>İletişim bilgileri herkese açık değildir.</span></div>
@@ -802,11 +802,11 @@ async function renderCands(isPublic=false){
     const displayName = isPublic ? `${esc(c.first_name)} ${esc((c.last_name||'')[0]||'')}.` : `${esc(c.first_name)} ${esc(c.last_name)}`;
 
     if(isPublic) action=`<button class="btn ghost sm" data-role="aday">Katılmak için giriş yap</button>`;
-    else if(c.user_id===meId()) action=`<span class="locked">Senin profilin</span>`;
+    else if(c.user_id===meId()) action=`<button class="btn dim sm" data-del-cand="${c.user_id}">Paylaşımı sil</button>`;
     else if(open) action=`<div class="contact">📞 ${esc(open.phone||'')} · ✉ ${esc(open.email||'')}</div>`;
-    else if(r && r.status==='pending') action=`<span class="st pending">İstek gönderildi</span>`;
+    else if(r && r.status==='pending') action=`<span class="st pending">Bilgilerin iletildi</span>`;
     else if(r && r.status==='declined') action=`<span class="st declined">Reddedildi</span>`;
-    else action=`<button class="btn match sm" data-apply="${c.user_id}" data-ctx="aday">İletişim iste</button>`;
+    else action=`<button class="btn match sm" data-apply="${c.user_id}" data-ctx="aday">İletişim bilgilerini gönder</button>`;
 
     return `
       <div class="entry">
@@ -828,12 +828,37 @@ async function renderCands(isPublic=false){
     `;
   }).join('');
 
-  isPublic ? bindLoginCtas() : bindApply();
+  if(isPublic) bindLoginCtas();
+  else{
+    bindCandidateProfileActions();
+    bindApply();
+  }
 }
 
 function bindLoginCtas(){
   document.querySelectorAll('[data-role]').forEach(b=>{
     b.onclick=()=>showLoginPrompt(b.dataset.role);
+  });
+}
+
+function bindCandidateProfileActions(){
+  document.querySelectorAll('[data-del-cand]').forEach(b=>b.onclick=async()=>{
+    if(!confirm('Yetenek havuzundaki paylaşımın silinsin mi?')) return;
+    b.disabled=true;
+    b.textContent='Siliniyor…';
+    const { error } = await sb
+      .from('candidate_profiles')
+      .delete()
+      .eq('user_id', b.dataset.delCand)
+      .eq('user_id', meId());
+    if(error){
+      b.disabled=false;
+      b.textContent='Paylaşımı sil';
+      alert('Paylaşım silinemedi: ' + error.message);
+      return;
+    }
+    TAB='cands';
+    route();
   });
 }
 
@@ -962,7 +987,8 @@ async function renderMyJobs(){
       if(error){
         alert('İlan silinemedi: ' + error.message);
         return;
-      }      renderMyJobs();
+      }
+      renderMyJobs();
     }
   });
 }
