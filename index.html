@@ -847,7 +847,12 @@ function bindApply(){
       await fetch('/.netlify/functions/notify',{
         method:'POST',
         headers:{'content-type':'application/json'},
-        body:JSON.stringify({toUserId:to,fromName:ME.first_name+' '+ME.last_name})
+        body:JSON.stringify({
+          toUserId:to,
+          fromUserId:meId(),
+          fromName:ME.first_name+' '+ME.last_name,
+          context:ctx
+        })
       });
     }catch(e){}
     renderTab();
