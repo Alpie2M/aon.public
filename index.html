@@ -949,8 +949,15 @@ async function renderMyJobs(){
 
   document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{
     if(confirm('İlan silinsin mi?')){
-      await sb.from('job_posts').delete().eq('id',b.dataset.del);
-      renderMyJobs();
+      const { error } = await sb
+        .from('job_posts')
+        .delete()
+        .eq('id', b.dataset.del)
+        .eq('employer_user_id', meId());
+      if(error){
+        alert('İlan silinemedi: ' + error.message);
+        return;
+      }      renderMyJobs();
     }
   });
 }
