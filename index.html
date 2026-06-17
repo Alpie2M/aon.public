@@ -870,29 +870,6 @@ function bindCandidateProfileActions(){
   });
 }
 
-function bindCandidateProfileActions(){
-  document.querySelectorAll('[data-del-cand]').forEach(b=>b.onclick=async()=>{
-    if(!confirm('Yetenek havuzundaki paylaşımın silinsin mi?')) return;
-    b.disabled=true; b.textContent='Siliniyor…';
-    const uid=meId();
-    await sb.from('candidate_contacts').delete().eq('user_id', uid);
-    await sb.storage.from('cvs').remove([`${uid}/cv.pdf`]);
-    const { data:del, error } = await sb
-      .from('candidate_profiles')
-      .delete()
-      .eq('user_id', uid)
-      .select();
-    if(error){
-      b.disabled=false; b.textContent='Paylaşımı sil';
-      alert('Silinemedi: '+error.message); return;
-    }
-    if(!del || del.length===0){
-      b.disabled=false; b.textContent='Paylaşımı sil';
-      alert('Silinemedi: yetki yok (DELETE policy hâlâ eksik).'); return;
-    }
-    TAB='cands'; route();
-  });
-}
 
 /* ---------- REQUESTS ---------- */
 async function myRequests(){
