@@ -51,7 +51,7 @@ export async function handler(event) {
       headers: h,
       body: JSON.stringify({ type: "magiclink", email: toEmail, redirect_to: process.env.SITE_URL }),
     });
-    const link = (await lres.json());
+    const link = await lres.json();
     const action = link?.action_link || link?.properties?.action_link || process.env.SITE_URL;
 
     const html = `
