@@ -3,378 +3,963 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AON — Alumni Opportunity Network</title>
+<title>IMT Kariyer</title>
 <style>
   :root{
-    --bg:#F4F6F9;--ink:#15213B;--ink2:#3A465F;--muted:#7A879C;--faint:#A7B1C2;
-    --card:#fff;--line:#E4E8EF;--line2:#EDF0F5;--accent:#EE9F2E;--accentd:#D88712;--match:#179B7E;--navy:#15213B;--danger:#D14B45;
-    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --bg:#08111f;
+    --bg2:#0d1728;
+    --panel:#101c31;
+    --panel2:#15233b;
+    --line:rgba(255,255,255,.08);
+    --line2:rgba(255,255,255,.12);
+    --text:#eef4ff;
+    --muted:#9fb0cc;
+    --soft:#c9d4e7;
+    --gold:#e8b14c;
+    --gold2:#c8922f;
+    --teal:#2cc7a2;
+    --danger:#ff7d7d;
+    --white:#ffffff;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   }
-  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    background:
+      radial-gradient(circle at top left, rgba(44,199,162,.10), transparent 28%),
+      radial-gradient(circle at top right, rgba(232,177,76,.10), transparent 24%),
+      linear-gradient(180deg, var(--bg), var(--bg2));
+    color:var(--text);
+    line-height:1.5;
+  }
   .mono{font-family:var(--mono)}
-  nav{position:sticky;top:0;z-index:40;background:rgba(244,246,249,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  .navin{max-width:1080px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-  .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:18px;letter-spacing:-.02em}
-  .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(238,159,46,.18)}
-  .tabs{display:flex;gap:4px;overflow-x:auto}
-  .tab{border:none;background:none;font:600 14px var(--sans);color:var(--muted);padding:7px 12px;border-radius:8px;cursor:pointer;white-space:nowrap}
-  .tab.active{color:var(--navy);background:#fff;box-shadow:0 0 0 1px var(--line)}
-  .navend{margin-left:auto;display:flex;gap:10px;align-items:center;font-size:13px;color:var(--muted)}
-  .wrap{max-width:1080px;margin:0 auto;padding:30px 20px 80px}
-  .btn{font:700 13.5px var(--sans);border-radius:10px;padding:9px 16px;cursor:pointer;border:1px solid transparent}
-  .btn.primary{background:var(--accent);color:#3a2700;box-shadow:0 2px 0 var(--accentd)}
-  .btn.ghost{background:#fff;border-color:var(--line);color:var(--ink)}
-  .btn.match{background:var(--match);color:#fff}
-  .btn.dim{background:var(--line2);color:var(--ink2)}
-  .btn.sm{padding:6px 11px;font-size:12.5px}
-  .btn:disabled{opacity:.5;cursor:default}
-  .eyebrow{font:700 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--accentd)}
-  h1{font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;margin:10px 0}
-  h2{font-size:24px;letter-spacing:-.02em;margin:0 0 6px}
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(8,17,31,.78);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .navin{
+    max-width:1180px;margin:0 auto;padding:14px 22px;
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    font-weight:800;font-size:18px;letter-spacing:-.02em;
+    cursor:pointer;color:var(--text);text-decoration:none;
+  }
+  .brand .dot{
+    width:11px;height:11px;border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 0 4px rgba(232,177,76,.18);
+  }
+  .tabs{display:flex;gap:6px;overflow:auto}
+  .tab{
+    border:none;background:none;color:var(--muted);
+    font:600 14px var(--sans);padding:8px 12px;border-radius:999px;
+    cursor:pointer;white-space:nowrap;
+  }
+  .tab.active{background:rgba(255,255,255,.08);color:var(--white)}
+  .navend{
+    margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  }
+  .who{font-size:13px;color:var(--muted)}
+  .btn{
+    border:1px solid transparent;border-radius:999px;padding:10px 16px;
+    font:700 13px var(--sans);cursor:pointer;
+  }
+  .btn.primary{
+    background:var(--gold);color:#201505;box-shadow:0 2px 0 var(--gold2);
+  }
+  .btn.ghost{
+    background:transparent;border-color:var(--line2);color:var(--text);
+  }
+  .btn.match{background:var(--teal);color:#06231d}
+  .btn.dim{background:rgba(255,255,255,.08);color:var(--soft)}
+  .btn.sm{padding:7px 12px;font-size:12px}
+  .btn:disabled{opacity:.55;cursor:default}
+  .wrap{max-width:1180px;margin:0 auto;padding:34px 22px 80px}
+  .eyebrow{
+    font:700 11px var(--mono);
+    letter-spacing:.22em;text-transform:uppercase;color:var(--gold);
+  }
+  h1{font-size:clamp(34px,6vw,60px);line-height:1.02;letter-spacing:-.04em;margin:14px 0}
+  h2{font-size:28px;letter-spacing:-.03em;margin:0 0 8px}
+  h3{margin:0}
   .sub{color:var(--muted);font-size:14px;margin:0 0 22px}
-  .center{max-width:440px;margin:8vh auto 0;text-align:center}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
-  .field{margin-bottom:14px;text-align:left}
-  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
-  .field input,.field textarea,.field select{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:14px var(--sans);color:var(--ink);background:#fff}
-  .field textarea{min-height:74px;resize:vertical}
-  .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(238,159,46,.15)}
-  .req::after{content:" *";color:var(--accentd)}
+  .lead{font-size:18px;color:var(--soft);max-width:38rem;margin:0 0 28px}
+  .hero{
+    display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:stretch;
+  }
+  .heroPanel,.card,.entry,.step,.previewCard,.empty,.reqrow{
+    background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+    border:1px solid var(--line);
+    border-radius:22px;
+    box-shadow:0 10px 40px rgba(0,0,0,.18);
+  }
+  .heroPanel{padding:32px}
+  .heroVisual{padding:28px;display:flex;flex-direction:column;justify-content:space-between}
+  .heroCtas,.previewActions{display:flex;gap:12px;flex-wrap:wrap}
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+  .metric{
+    padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02)
+  }
+  .metric b{display:block;font-size:15px;color:var(--white);margin-bottom:4px}
+  .metric span{font-size:12.5px;color:var(--muted)}
+  .pillRow{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{
+    border:1px solid var(--line2);border-radius:999px;padding:7px 10px;
+    font:600 12px var(--sans);color:var(--soft)
+  }
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+  .step{padding:22px}
+  .step .si{font:700 11px var(--mono);letter-spacing:.16em;color:var(--gold)}
+  .step h3{font-size:17px;margin:10px 0 6px}
+  .step p{font-size:13.5px;color:var(--muted);margin:0}
+  .sectionHead{display:flex;justify-content:space-between;gap:16px;align-items:end;margin:48px 0 18px}
+  .sectionHead p{margin:0;color:var(--muted);font-size:14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+  .previewCard,.entry{padding:18px}
+  .entry .top,.previewCard .top{display:flex;gap:12px;align-items:flex-start}
+  .avatar{
+    width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+    font-weight:800;color:#fff;flex:0 0 42px;
+  }
+  .role{font-size:12.5px;color:var(--gold);font-weight:600}
+  .badge{
+    margin-left:auto;background:rgba(255,255,255,.08);color:var(--soft);
+    font:600 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;
+    border-radius:999px;padding:4px 8px;
+  }
+  .entry p,.previewCard p{font-size:13px;color:var(--soft);margin:12px 0}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{
+    font:11px var(--mono);padding:4px 8px;border-radius:999px;
+    background:rgba(255,255,255,.06);color:var(--soft)
+  }
+  .foot{
+    margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+    display:flex;gap:8px;align-items:center;flex-wrap:wrap
+  }
+  .contact{
+    font:12px var(--mono);color:#9ff0da;background:rgba(44,199,162,.12);
+    border-radius:12px;padding:7px 10px;width:100%
+  }
+  .locked{font:11px var(--mono);color:var(--muted)}
+  .card{padding:24px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--soft)}
+  .field input,.field textarea,.field select{
+    width:100%;background:rgba(255,255,255,.03);color:var(--text);
+    border:1px solid var(--line2);border-radius:14px;padding:11px 12px;
+    font:14px var(--sans);
+  }
+  .field textarea{min-height:86px;resize:vertical}
+  .field input:focus,.field textarea:focus,.field select:focus{
+    outline:none;border-color:rgba(232,177,76,.55);box-shadow:0 0 0 3px rgba(232,177,76,.12)
+  }
+  .req::after{content:" *";color:var(--gold)}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .checks{margin:6px 0 16px;display:flex;flex-direction:column;gap:8px}
-  .checks label{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:var(--ink2);cursor:pointer}
-  .note{font-size:12px;color:var(--muted);background:var(--line2);border-radius:10px;padding:10px 12px;margin:8px 0 14px}
+  .note{
+    font-size:12px;color:var(--muted);background:rgba(255,255,255,.04);
+    border-radius:14px;padding:10px 12px;margin:8px 0 14px
+  }
+  .checks{display:flex;flex-direction:column;gap:8px;margin:6px 0 16px}
+  .checks label{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--soft)}
   .msg{font-size:13px;margin-top:12px;min-height:18px}
-  .msg.ok{color:var(--match)}.msg.err{color:var(--danger)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
-  .entry{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column}
-  .entry .top{display:flex;gap:12px;align-items:flex-start}
-  .avatar{width:40px;height:40px;border-radius:10px;flex:0 0 40px;display:grid;place-items:center;font-weight:800;color:#fff}
-  .entry h3{font-size:16px;margin:0}
-  .entry .role{font-size:12.5px;color:var(--accentd);font-weight:600}
-  .badge{font:600 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;border-radius:5px;padding:2px 7px;background:var(--line2);color:var(--ink2);margin-left:auto}
-  .entry p{font-size:13px;color:var(--ink2);margin:12px 0}
-  .chips{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{font:11px var(--mono);background:var(--line2);color:var(--ink2);border-radius:6px;padding:3px 8px}
-  .foot{margin-top:14px;border-top:1px solid var(--line2);padding-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .contact{font:12px var(--mono);color:var(--match);background:rgba(23,155,126,.1);border-radius:8px;padding:6px 10px;width:100%}
-  .locked{font:11px var(--mono);color:var(--faint)}
-  .empty{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:34px;text-align:center;color:var(--muted)}
-  .reqrow{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:center;margin-bottom:10px}
-  .reqrow .st{font:11px var(--mono);padding:3px 9px;border-radius:999px;margin-left:auto}
-  .st.pending{background:rgba(238,159,46,.14);color:var(--accentd)}.st.approved{background:rgba(23,155,126,.12);color:var(--match)}.st.declined{background:#f3e0df;color:var(--danger)}
-  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-  @media(max-width:720px){.row2{grid-template-columns:1fr}}
+  .msg.ok{color:#82eccf}.msg.err{color:var(--danger)}
+  .empty{padding:30px;text-align:center;color:var(--muted)}
+  .reqrow{
+    padding:14px 16px;display:flex;gap:12px;align-items:center;margin-bottom:10px
+  }
+  .st{
+    font:11px var(--mono);padding:4px 9px;border-radius:999px;margin-left:auto
+  }
+  .st.pending{background:rgba(232,177,76,.14);color:var(--gold)}
+  .st.approved{background:rgba(44,199,162,.14);color:#82eccf}
+  .st.declined{background:rgba(255,125,125,.12);color:var(--danger)}
+  .center{max-width:540px;margin:7vh auto 0}
+  a{color:inherit}
+  @media(max-width:900px){
+    .hero,.grid2,.row2{grid-template-columns:1fr}
+    .metrics{grid-template-columns:1fr}
+  }
 </style>
 </head>
 <body>
-<nav id="nav" style="display:none"><div class="navin">
-  <div class="logo"><span class="dot"></span>AON</div>
-  <div class="tabs" id="tabs"></div>
-  <div class="navend"><span id="who"></span><button class="btn ghost sm" id="logout">Çıkış</button></div>
-</div></nav>
+<nav>
+  <div class="navin">
+    <a class="brand" id="brand-link"><span class="dot"></span>IMT Kariyer</a>
+    <div class="tabs" id="tabs"></div>
+    <div class="navend" id="navend"></div>
+  </div>
+</nav>
 
 <div class="wrap" id="root"></div>
 
 <script type="module">
-const SUPABASE_URL  = "https://xfztfbvtfoawewbeqdkl.supabase.co";   // v1'deki ile aynı
+const SUPABASE_URL  = "https://xfztfbvtfoawewbeqdkl.supabase.co";
 const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhmenRmYnZ0Zm9hd2V3YmVxZGtsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NDgxNzksImV4cCI6MjA5NzIyNDE3OX0.B9nhLWQGzl0vIAu7sZCopbvYNEGPfIY34jp4Kn6rwEQ";
 
 const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
-const root=document.getElementById('root'), nav=document.getElementById('nav');
-let ME=null;            // community_members satırı
-let ROLE=null;          // 'aday' | 'isveren' | null
-let TAB='jobs';
-const esc=s=>(s||'').replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const COLORS=["#15213B","#EE9F2E","#179B7E","#5B6CC9","#C2557A"];
-const aColor=n=>{let h=0;for(const c of (n||'?'))h=(h*31+c.charCodeAt(0))%COLORS.length;return COLORS[h]};
-const ini=n=>(n||'?').split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
-const sk=s=>s.split(',').map(x=>x.trim()).filter(Boolean);
+const root=document.getElementById('root');
+let ME=null;
+let ROLE=null;
+let TAB='home';
+let pendingRole=localStorage.getItem('imt_pending_role');
 
-/* ---------- BOOT / AUTH ---------- */
+const esc=s=>(s||'').replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const COLORS=["#2cc7a2","#e8b14c","#4b7bec","#d16ba5","#7dd3fc"];
+const aColor=n=>{let h=0;for(const c of (n||'?')) h=(h*31+c.charCodeAt(0))%COLORS.length; return COLORS[h];};
+const ini=n=>(n||'?').split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const sk=s=>(s||'').split(',').map(x=>x.trim()).filter(Boolean);
+
 sb.auth.onAuthStateChange(()=>route());
 route();
 
 async function route(){
   const { data:{ session } } = await sb.auth.getSession();
-  if(!session){ _uid=null; nav.style.display='none'; return viewLogin(); }
+
+  if(!session){
+    ME=null; ROLE=null; _uid=null;
+    renderPublicNav();
+    return renderPublicTab();
+  }
+
   _uid=session.user.id;
-  // üye mi?
-  const { data:mem } = await sb.from('community_members').select('*').maybeSingle();
-  if(!mem){ nav.style.display='none'; return viewNotMember(session.user.email); }
+
+  const { data:mem, error:memberErr } = await sb
+    .from('community_members')
+    .select('*')
+    .maybeSingle();
+
+  if(memberErr) throw memberErr;
+  if(!mem){
+    renderPublicNav();
+    return viewNotMember(session.user.email);
+  }
+
   ME=mem;
-  // profil var mı?
+
   const uid=session.user.id;
   const [{data:cp},{data:ep}] = await Promise.all([
     sb.from('candidate_profiles').select('user_id').eq('user_id',uid).maybeSingle(),
     sb.from('employer_profiles').select('user_id').eq('user_id',uid).maybeSingle()
   ]);
-  ROLE = cp?'aday': ep?'isveren': null;
-  if(!ROLE){ nav.style.display='none'; return viewOnboard(); }
-  renderNav();
-  renderTab();
+
+  ROLE = cp ? 'aday' : ep ? 'isveren' : null;
+
+  if(!ROLE){
+    renderMemberNav();
+    if(pendingRole==='aday') return formCandidate();
+    if(pendingRole==='isveren') return formEmployer();
+    return viewOnboard();
+  }
+
+  renderMemberNav();
+  if (TAB === 'home') return viewLanding(true);
+  return renderTab();
 }
 
-function viewLogin(){
-  root.innerHTML=`<div class="center">
-    <div class="eyebrow">Alumni Opportunity Network</div>
-    <h1>Topluluk girişi</h1>
-    <p class="sub">Sadece kayıtlı topluluk üyeleri. E-postanı gir, giriş bağlantısını yollayalım.</p>
-    <div class="card">
-      <div class="field"><label class="req">Üyelik e-postan</label><input id="email" type="email" placeholder="ad.soyad@..." /></div>
-      <button class="btn primary" id="send" style="width:100%">Giriş bağlantısı gönder</button>
-      <div class="msg" id="m"></div>
+/* ---------- NAV ---------- */
+function renderPublicNav(){
+  const tabs=[['cands','Yetenek Havuzu'],['jobs','İlanlar']];
+  document.getElementById('tabs').innerHTML=tabs.map(([k,l])=>
+    `<button class="tab ${TAB===k?'active':''}" data-t="${k}">${l}</button>`
+  ).join('');
+  document.querySelectorAll('#tabs .tab').forEach(b=>{
+    b.onclick=()=>{ TAB=b.dataset.t; renderPublicNav(); renderPublicTab(); };
+  });
+
+  document.getElementById('navend').innerHTML=`
+    <button class="btn ghost sm" data-role="aday">Yetenek Havuzuna Katıl</button>
+    <button class="btn primary sm" data-role="isveren">Yetenekleri Keşfet</button>
+  `;
+  document.querySelector('#navend [data-role="aday"]').onclick=()=>showLoginPrompt('aday');
+  document.querySelector('#navend [data-role="isveren"]').onclick=()=>{ TAB='cands'; renderPublicNav(); renderPublicTab(); };
+}
+
+function renderMemberNav(){
+  const tabs=[['cands','Yetenek Havuzu'],['jobs','İlanlar'],['requests','İstekler']];
+  if(ROLE==='isveren') tabs.push(['me','İlan Ver']);
+  document.getElementById('tabs').innerHTML=tabs.map(([k,l])=>
+    `<button class="tab ${TAB===k?'active':''}" data-t="${k}">${l}</button>`
+  ).join('');
+  document.querySelectorAll('#tabs .tab').forEach(b=>{
+    b.onclick=()=>{ TAB=b.dataset.t; renderMemberNav(); renderTab(); };
+  });
+
+  document.getElementById('navend').innerHTML=`
+    <span class="who">${esc(ME.first_name)} · ${ROLE==='aday'?'Aday':'İlan Veren'}</span>
+    <button class="btn ghost sm" id="logout">Çıkış</button>
+  `;
+  document.getElementById('logout').onclick=()=>sb.auth.signOut();
+}
+
+document.getElementById('brand-link').onclick=(e)=>{
+  e.preventDefault();
+  TAB='home';
+  return viewLanding(!!ME);
+};
+
+function renderPublicTab(){
+  if(TAB==='cands') return renderCands(true);
+  if(TAB==='jobs') return renderJobs(true);
+  TAB='home';
+  return viewLanding(false);
+}
+
+function renderTab(){
+  if(TAB==='cands') return renderCands(false);
+  if(TAB==='jobs') return renderJobs(false);
+  if(TAB==='requests') return renderRequests();
+  if(TAB==='me') return renderMyJobs();
+  TAB='home';
+  return viewLanding(true);
+}
+
+/* ---------- LANDING ---------- */
+async function viewLanding(isMember){
+  const [candPreview, jobPreview] = await Promise.all([
+    sb.from('candidate_profiles').select('*').order('created_at',{ascending:false}).limit(3),
+    sb.from('job_posts').select('*').eq('is_published',true).order('created_at',{ascending:false}).limit(3)
+  ]);
+
+  const cands = candPreview.data || [];
+  const jobs = jobPreview.data || [];
+
+  root.innerHTML=`
+    <section class="hero">
+      <div class="heroPanel">
+        <div class="eyebrow">İşletme Mühendisliği Topluluğu</div>
+        <h1>Profesyonel yetenek havuzu ve topluluk içi kariyer akışı.</h1>
+        <p class="lead">IMT Kariyer, topluluk üyelerimizin kariyer fırsatları için oluşturulmuş sade ve güvenli bir alan. Yetenek görünürlüğü, kontrollü etkileşim ve birlikte çalışma imkanları tek çatı altında buluşur.</p>
+        <div class="heroCtas">
+          <button class="btn primary" id="cta-join">Yetenek Havuzuna Katıl</button>
+          <button class="btn ghost" id="cta-browse">İlanları Gör</button>
+        </div>
+        <div class="metrics">
+          <div class="metric"><b>Gizlilik odaklı</b><span>İletişim bilgileri herkese açık değildir.</span></div>
+          <div class="metric"><b>Etkileşim kontrollü</b><span>Bağlantılar talep ve onay akışıyla kurulur.</span></div>
+          <div class="metric"><b>Birlikte çalışma</b><span>Topluluk içi fırsatlar daha görünür hale gelir.</span></div>
+        </div>
+      </div>
+      <div class="heroVisual heroPanel">
+        <div>
+          <div class="eyebrow">Kısa Bakış</div>
+          <h2 style="margin-top:8px">Topluluk içinde görünürlük, güven ve akış.</h2>
+          <p class="sub" style="margin-top:10px">Profilini öne çıkar, fırsatları keşfet, iletişimi sadece istediğinde aç.</p>
+        </div>
+        <div class="pillRow">
+          <span class="pill">Yetenek Havuzu</span>
+          <span class="pill">İlanlar</span>
+          <span class="pill">Gizli İletişim</span>
+          <span class="pill">Onaylı Erişim</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid2">
+      <div class="step">
+        <div class="si">01 · GÖRÜNÜRLÜK</div>
+        <h3>Yetenekleri keşfet</h3>
+        <p>Yetenek havuzu ve ilanlar giriş yapmadan incelenebilir. Böylece topluluğun güncel fırsat akışı ilk bakışta anlaşılır.</p>
+      </div>
+      <div class="step">
+        <div class="si">02 · KATILIM</div>
+        <h3>Üye hesabınla ilerle</h3>
+        <p>Profil oluşturmak, ilan vermek ve iletişim talebi göndermek için toplulukta kayıtlı e-posta adresinle giriş yapılır.</p>
+      </div>
+      <div class="step">
+        <div class="si">03 · GİZLİLİK</div>
+        <h3>Bilgini sen aç</h3>
+        <p>Telefon ve e-posta herkese görünmez. İletişim bilgileri yalnızca karşılıklı onay sonrasında açılır.</p>
+      </div>
+      <div class="step">
+        <div class="si">04 · BİRLİKTE ÇALIŞMA</div>
+        <h3>Topluluk içi bağ kur</h3>
+        <p>İş arayan üyeler ile fırsat sunan üyeler aynı alanda buluşur; daha derli toplu ve güvenli bir kariyer akışı oluşur.</p>
+      </div>
+    </section>
+
+    <div class="sectionHead">
+      <div>
+        <div class="eyebrow">Yetenek Havuzu</div>
+        <h2>Öne çıkan profiller</h2>
+        <p>${isMember ? 'Üye olarak tam detayları görebilir ve iletişim talebi gönderebilirsin.' : 'Public önizleme: iletişim ve etkileşim için giriş gerekir.'}</p>
+      </div>
+      <div class="previewActions">
+        <button class="btn ghost sm" id="go-cands">Tüm havuzu gör</button>
+      </div>
     </div>
-    <p class="note" style="margin-top:14px">Bağlantı yalnızca topluluk listesinde kayıtlı e-postalara çalışır.</p>
-  </div>`;
+    <div class="grid" id="candPreviewGrid"></div>
+
+    <div class="sectionHead">
+      <div>
+        <div class="eyebrow">İlanlar</div>
+        <h2>Güncel fırsatlar</h2>
+        <p>${isMember ? 'Üye olarak talep bırakabilir ve kendi ilanını yönetebilirsin.' : 'Public önizleme: başvuru ve iletişim için giriş gerekir.'}</p>
+      </div>
+      <div class="previewActions">
+        <button class="btn ghost sm" id="go-jobs">Tüm ilanları gör</button>
+      </div>
+    </div>
+    <div class="grid" id="jobPreviewGrid"></div>
+  `;
+
+  document.getElementById('cta-join').onclick=()=> isMember ? formCandidate() : showLoginPrompt('aday');
+  document.getElementById('cta-browse').onclick=()=>{ TAB='jobs'; isMember ? renderTab() : renderPublicTab(); };
+  document.getElementById('go-cands').onclick=()=>{ TAB='cands'; isMember ? renderTab() : renderPublicTab(); };
+  document.getElementById('go-jobs').onclick=()=>{ TAB='jobs'; isMember ? renderTab() : renderPublicTab(); };
+
+  document.getElementById('candPreviewGrid').innerHTML = cands.length
+    ? cands.map(c=>previewCandidateCard(c, !isMember)).join('')
+    : `<div class="empty">Henüz aday profili yok.</div>`;
+
+  document.getElementById('jobPreviewGrid').innerHTML = jobs.length
+    ? jobs.map(j=>previewJobCard(j, !isMember)).join('')
+    : `<div class="empty">Henüz ilan yok.</div>`;
+
+  bindLoginCtas();
+}
+
+function previewCandidateCard(c, isPublic){
+  const name = isPublic ? `${esc(c.first_name)} ${esc((c.last_name||'')[0] || '')}.` : `${esc(c.first_name)} ${esc(c.last_name)}`;
+  return `
+    <div class="previewCard">
+      <div class="top">
+        <div class="avatar" style="background:${aColor(c.first_name)}">${ini(c.first_name+' '+c.last_name)}</div>
+        <div>
+          <h3>${name}</h3>
+          <div class="role">${esc(c.department || 'İşletme Mühendisliği')}</div>
+        </div>
+        <span class="badge">${c.status==='ogrenci'?'Öğrenci':'Mezun'}</span>
+      </div>
+      <p>${esc(c.summary || '')}</p>
+      <div class="chips">${(c.skills||[]).slice(0,4).map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</div>
+      <div class="foot">
+        ${isPublic ? `<button class="btn ghost sm" data-role="aday">Katılmak için giriş yap</button>` : `<span class="locked">Tam profil için havuza git</span>`}
+      </div>
+    </div>
+  `;
+}
+
+function previewJobCard(j, isPublic){
+  return `
+    <div class="previewCard">
+      <div class="top">
+        <div class="avatar" style="background:${aColor(j.company_name)}">${ini(j.company_name)}</div>
+        <div>
+          <h3>${esc(j.title)}</h3>
+          <div class="role">${esc(j.company_name)} · ${esc(j.position || '')}</div>
+        </div>
+        <span class="badge">${esc(j.work_type || 'İlan')}</span>
+      </div>
+      <p>${esc(j.description || '')}</p>
+      <div class="chips">
+        ${j.city ? `<span class="chip">📍 ${esc(j.city)}</span>` : ''}
+        ${j.deadline ? `<span class="chip">son: ${esc(j.deadline)}</span>` : ''}
+      </div>
+      <div class="foot">
+        ${isPublic ? `<button class="btn ghost sm" data-role="isveren">Etkileşim için giriş yap</button>` : `<span class="locked">Detay için ilanlara git</span>`}
+      </div>
+    </div>
+  `;
+}
+
+/* ---------- LOGIN ---------- */
+function showLoginPrompt(role){
+  pendingRole=role;
+  localStorage.setItem('imt_pending_role', pendingRole);
+
+  root.innerHTML=`
+    <div class="center">
+      <div class="card">
+        <div class="eyebrow">Topluluk Girişi</div>
+        <h2 style="margin-top:8px">${role==='aday' ? 'Yetenek havuzuna katıl' : 'Etkileşim için giriş yap'}</h2>
+        <p class="sub">Sadece kayıtlı topluluk üyeleri. E-posta adresini gir, magic link gönderelim.</p>
+        <div class="field">
+          <label class="req">Üyelik e-postan</label>
+          <input id="email" type="email" placeholder="ad.soyad@..." />
+        </div>
+        <button class="btn primary" id="send" style="width:100%">Giriş bağlantısı gönder</button>
+        <div class="msg" id="m"></div>
+      </div>
+    </div>
+  `;
+
   document.getElementById('send').onclick=async()=>{
-    const email=document.getElementById('email').value.trim(); const m=document.getElementById('m');
-    if(!email){m.className='msg err';m.textContent='E-posta gerekli.';return;}
-    m.className='msg';m.textContent='Gönderiliyor…';
-    const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: window.location.origin+window.location.pathname }});
-    if(error){m.className='msg err';m.textContent='Hata: '+error.message;}
-    else{m.className='msg ok';m.textContent='Bağlantı gönderildi. E-postandaki linke tıkla.';}
+    const email=document.getElementById('email').value.trim();
+    const m=document.getElementById('m');
+    if(!email){ m.className='msg err'; m.textContent='E-posta gerekli.'; return; }
+    m.className='msg'; m.textContent='Gönderiliyor…';
+    const { error } = await sb.auth.signInWithOtp({
+      email,
+      options:{ emailRedirectTo: window.location.origin + window.location.pathname }
+    });
+    if(error){ m.className='msg err'; m.textContent='Hata: '+error.message; }
+    else{ m.className='msg ok'; m.textContent='Bağlantı gönderildi. E-postandaki linke tıkla.'; }
   };
 }
 
 function viewNotMember(email){
-  root.innerHTML=`<div class="center"><div class="card">
-    <h2>Üyelik bulunamadı</h2>
-    <p class="sub"><b>${esc(email)}</b> topluluk üye listemizde kayıtlı değil. Üyeysen yönetimle iletişime geç.</p>
-    <button class="btn ghost" id="out">Çıkış yap</button></div></div>`;
-  document.getElementById('out').onclick=()=>sb.auth.signOut();
+  root.innerHTML=`
+    <div class="center">
+      <div class="card">
+        <h2>Üyelik bulunamadı</h2>
+        <p class="sub"><b>${esc(email)}</b> topluluk üye listemizde kayıtlı değil.</p>
+        <button class="btn ghost" id="back-home">Landing sayfasına dön</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('back-home').onclick=()=>{
+    TAB='home';
+    renderPublicNav();
+    renderPublicTab();
+  };
 }
 
-/* ---------- ONBOARDING ---------- */
+/* ---------- ONBOARD ---------- */
 function viewOnboard(){
-  root.innerHTML=`<div class="center" style="max-width:520px">
-    <div class="eyebrow">Hoş geldin ${esc(ME.first_name)}</div>
-    <h1>Nasıl katılıyorsun?</h1>
-    <p class="sub">Üye no: <span class="mono">${esc(ME.membership_number)}</span></p>
-    <div style="display:flex;gap:12px">
-      <button class="btn ghost" style="flex:1;padding:22px" id="r-aday"><b>Aday</b><br><span style="font-weight:400;color:var(--muted);font-size:12px">İş/fırsat arıyorum</span></button>
-      <button class="btn ghost" style="flex:1;padding:22px" id="r-isv"><b>İlan Veren</b><br><span style="font-weight:400;color:var(--muted);font-size:12px">Fırsat sunuyorum</span></button>
-    </div></div>`;
+  root.innerHTML=`
+    <div class="center">
+      <div class="card">
+        <div class="eyebrow">Hoş geldin ${esc(ME.first_name)}</div>
+        <h2>Nasıl ilerlemek istersin?</h2>
+        <p class="sub">Üye no: <span class="mono">${esc(ME.membership_number)}</span></p>
+        <div class="previewActions">
+          <button class="btn ghost" id="r-aday" style="flex:1">Aday</button>
+          <button class="btn primary" id="r-isv" style="flex:1">İlan Veren</button>
+        </div>
+      </div>
+    </div>
+  `;
   document.getElementById('r-aday').onclick=()=>formCandidate();
   document.getElementById('r-isv').onclick=()=>formEmployer();
 }
 
-const consentBlock=`<div class="note">KVKK / Aydınlatma metni — <i>buraya topluluğun resmi metnini ekle (hukukçu onaylı olmalı)</i>.</div>
+const consentBlock=`
+  <div class="note">KVKK / Aydınlatma metni burada topluluğun resmi metniyle degistirilmeli.</div>
   <div class="checks">
     <label><input type="checkbox" id="kvkk"> KVKK metnini okudum ve onaylıyorum</label>
     <label><input type="checkbox" id="priv"> Aydınlatma metnini okudum ve onaylıyorum</label>
-  </div>`;
+  </div>
+`;
 
+/* ---------- FORMS ---------- */
 function formCandidate(){
-  root.innerHTML=`<div style="max-width:640px;margin:0 auto">
-    <div class="eyebrow">Aday Profili</div><h2>Profilini oluştur</h2><p class="sub">İletişim bilgilerin gizli kalır; sadece onayladığın kişilere açılır.</p>
-    <div class="card">
-      <div class="row2"><div class="field"><label class="req">Ad</label><input id="fn" value="${esc(ME.first_name)}"></div><div class="field"><label class="req">Soyad</label><input id="ln" value="${esc(ME.last_name)}"></div></div>
-      <div class="field"><label class="req">Durum</label><select id="status"><option value="">Seç…</option><option value="ogrenci">Öğrenci</option><option value="mezun">Mezun</option></select></div>
-      <div class="row2"><div class="field"><label class="req">Telefon</label><input id="phone"></div><div class="field"><label class="req">E-posta</label><input id="cemail"></div></div>
-      <div class="row2"><div class="field"><label class="req">Okul / Üniversite</label><input id="school"></div><div class="field"><label class="req">Bölüm</label><input id="dept"></div></div>
-      <div class="row2"><div class="field"><label>Mezuniyet yılı</label><input id="gyear"></div><div class="field"><label>Şehir</label><input id="city"></div></div>
-      <div class="field"><label class="req">Kısa profil özeti</label><textarea id="summary"></textarea></div>
-      <div class="field"><label>Yetenekler <span style="font-weight:400;color:var(--faint)">— virgülle</span></label><input id="skills" placeholder="Python, Excel, Solidity"></div>
-      <div class="row2"><div class="field"><label>LinkedIn</label><input id="linkedin"></div><div class="field"><label>Portfolyo</label><input id="portfolio"></div></div>
-      <div class="field"><label class="req">CV (PDF)</label><input id="cv" type="file" accept="application/pdf"></div>
-      ${consentBlock}
-      <button class="btn primary" id="save" style="width:100%">Profili Kaydet</button>
-      <div class="msg" id="m"></div>
-    </div></div>`;
+  root.innerHTML=`
+    <div style="max-width:680px;margin:0 auto">
+      <div class="eyebrow">Aday Profili</div>
+      <h2>Profilini oluştur</h2>
+      <p class="sub">İletişim bilgilerin gizli kalır; sadece onayladığın kişilere açılır.</p>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><label class="req">Ad</label><input id="fn" value="${esc(ME.first_name)}"></div>
+          <div class="field"><label class="req">Soyad</label><input id="ln" value="${esc(ME.last_name)}"></div>
+        </div>
+        <div class="field">
+          <label class="req">Durum</label>
+          <select id="status">
+            <option value="">Seç…</option>
+            <option value="ogrenci">Öğrenci</option>
+            <option value="mezun">Mezun</option>
+          </select>
+        </div>
+        <div class="row2">
+          <div class="field"><label class="req">Telefon</label><input id="phone"></div>
+          <div class="field"><label class="req">E-posta</label><input id="cemail"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>Mezuniyet yılı</label><input id="gyear"></div>
+          <div class="field"><label>Şehir</label><input id="city"></div>
+        </div>
+        <div class="field"><label class="req">Kısa profil özeti</label><textarea id="summary"></textarea></div>
+        <div class="field"><label>Yetenekler</label><input id="skills" placeholder="Python, Excel, SQL"></div>
+        <div class="row2">
+          <div class="field"><label>LinkedIn</label><input id="linkedin"></div>
+          <div class="field"><label>Portfolyo</label><input id="portfolio"></div>
+        </div>
+        <div class="note">Okul ve bölüm sabit kabul edilir: <b>İTÜ İşletme Mühendisliği</b>.</div>
+        <div class="field"><label>CV (PDF) — opsiyonel</label><input id="cv" type="file" accept="application/pdf"></div>
+        ${consentBlock}
+        <button class="btn primary" id="save" style="width:100%">Profili Kaydet</button>
+        <div class="msg" id="m"></div>
+      </div>
+    </div>
+  `;
   document.getElementById('save').onclick=saveCandidate;
 }
+
 async function saveCandidate(){
   const v=id=>document.getElementById(id).value.trim();
   const m=document.getElementById('m');
-  const need={fn:v('fn'),ln:v('ln'),status:v('status'),phone:v('phone'),cemail:v('cemail'),school:v('school'),dept:v('dept'),summary:v('summary')};
-  if(Object.values(need).some(x=>!x)){m.className='msg err';m.textContent='Zorunlu (*) alanları doldur.';return;}
-  if(!document.getElementById('kvkk').checked||!document.getElementById('priv').checked){m.className='msg err';m.textContent='KVKK ve aydınlatma onayı zorunlu.';return;}
+  const need={fn:v('fn'),ln:v('ln'),status:v('status'),phone:v('phone'),cemail:v('cemail'),summary:v('summary')};
+
+  if(Object.values(need).some(x=>!x)){ m.className='msg err'; m.textContent='Zorunlu alanları doldur.'; return; }
+  if(!document.getElementById('kvkk').checked || !document.getElementById('priv').checked){ m.className='msg err'; m.textContent='KVKK ve aydınlatma onayı zorunlu.'; return; }
+
   const file=document.getElementById('cv').files[0];
-  if(!file){m.className='msg err';m.textContent='CV yüklemek zorunlu.';return;}
-  m.className='msg';m.textContent='Kaydediliyor…';
-  const { data:{ user } } = await sb.auth.getUser(); const uid=user.id;
-  const path=`${uid}/cv.pdf`;
-  const up=await sb.storage.from('cvs').upload(path,file,{upsert:true,contentType:'application/pdf'});
-  if(up.error){m.className='msg err';m.textContent='CV yüklenemedi: '+up.error.message;return;}
-  const p1=await sb.from('candidate_profiles').upsert({user_id:uid,membership_number:ME.membership_number,first_name:need.fn,last_name:need.ln,status:need.status,school:need.school,department:need.dept,graduation_year:v('gyear'),city:v('city'),summary:need.summary,skills:sk(v('skills')),linkedin:v('linkedin'),portfolio:v('portfolio'),cv_path:path});
-  if(p1.error){m.className='msg err';m.textContent='Hata: '+p1.error.message;return;}
+  m.className='msg'; m.textContent='Kaydediliyor…';
+
+  const { data:{ user } } = await sb.auth.getUser();
+  const uid=user.id;
+  let path=null;
+
+  if(file){
+    path=`${uid}/cv.pdf`;
+    const up=await sb.storage.from('cvs').upload(path,file,{upsert:true,contentType:'application/pdf'});
+    if(up.error){ m.className='msg err'; m.textContent='CV yüklenemedi: '+up.error.message; return; }
+  }
+
+  const p1=await sb.from('candidate_profiles').upsert({
+    user_id:uid,
+    membership_number:ME.membership_number,
+    first_name:need.fn,
+    last_name:need.ln,
+    status:need.status,
+    school:'İTÜ İşletme Mühendisliği',
+    department:'İşletme Mühendisliği',
+    graduation_year:v('gyear'),
+    city:v('city'),
+    summary:need.summary,
+    skills:sk(v('skills')),
+    linkedin:v('linkedin'),
+    portfolio:v('portfolio'),
+    cv_path:path
+  });
+
+  if(p1.error){ m.className='msg err'; m.textContent='Hata: '+p1.error.message; return; }
+
   await sb.from('candidate_contacts').upsert({user_id:uid,phone:need.phone,email:need.cemail});
   await sb.from('consents').insert({user_id:uid,membership_number:ME.membership_number,kvkk_approved:true,privacy_notice_approved:true});
+
+  localStorage.removeItem('imt_pending_role');
+  pendingRole=null;
+  TAB='cands';
   route();
 }
 
 function formEmployer(){
-  root.innerHTML=`<div style="max-width:640px;margin:0 auto">
-    <div class="eyebrow">İlan Veren Profili</div><h2>Kendini tanıt</h2><p class="sub">İletişim bilgilerin gizli kalır.</p>
-    <div class="card">
-      <div class="row2"><div class="field"><label class="req">Ad</label><input id="fn" value="${esc(ME.first_name)}"></div><div class="field"><label class="req">Soyad</label><input id="ln" value="${esc(ME.last_name)}"></div></div>
-      <div class="row2"><div class="field"><label class="req">Telefon</label><input id="phone"></div><div class="field"><label class="req">E-posta</label><input id="eemail"></div></div>
-      <div class="row2"><div class="field"><label class="req">Kurum / Şirket</label><input id="company"></div><div class="field"><label class="req">Pozisyon / Unvan</label><input id="title"></div></div>
-      ${consentBlock}
-      <button class="btn primary" id="save" style="width:100%">Bilgileri Kaydet</button>
-      <div class="msg" id="m"></div>
-    </div></div>`;
+  root.innerHTML=`
+    <div style="max-width:680px;margin:0 auto">
+      <div class="eyebrow">İlan Veren Profili</div>
+      <h2>Kendini tanıt</h2>
+      <p class="sub">İletişim bilgilerin gizli kalır.</p>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><label class="req">Ad</label><input id="fn" value="${esc(ME.first_name)}"></div>
+          <div class="field"><label class="req">Soyad</label><input id="ln" value="${esc(ME.last_name)}"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label class="req">Telefon</label><input id="phone"></div>
+          <div class="field"><label class="req">E-posta</label><input id="eemail"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label class="req">Kurum / Şirket</label><input id="company"></div>
+          <div class="field"><label class="req">Pozisyon / Unvan</label><input id="title"></div>
+        </div>
+        ${consentBlock}
+        <button class="btn primary" id="save" style="width:100%">Bilgileri Kaydet</button>
+        <div class="msg" id="m"></div>
+      </div>
+    </div>
+  `;
   document.getElementById('save').onclick=saveEmployer;
 }
+
 async function saveEmployer(){
-  const v=id=>document.getElementById(id).value.trim(); const m=document.getElementById('m');
+  const v=id=>document.getElementById(id).value.trim();
+  const m=document.getElementById('m');
   const need={fn:v('fn'),ln:v('ln'),phone:v('phone'),eemail:v('eemail'),company:v('company'),title:v('title')};
-  if(Object.values(need).some(x=>!x)){m.className='msg err';m.textContent='Zorunlu alanları doldur.';return;}
-  if(!document.getElementById('kvkk').checked||!document.getElementById('priv').checked){m.className='msg err';m.textContent='KVKK ve aydınlatma onayı zorunlu.';return;}
-  m.className='msg';m.textContent='Kaydediliyor…';
-  const { data:{ user } } = await sb.auth.getUser(); const uid=user.id;
-  const p=await sb.from('employer_profiles').upsert({user_id:uid,membership_number:ME.membership_number,first_name:need.fn,last_name:need.ln,company_name:need.company,title:need.title});
-  if(p.error){m.className='msg err';m.textContent='Hata: '+p.error.message;return;}
+
+  if(Object.values(need).some(x=>!x)){ m.className='msg err'; m.textContent='Zorunlu alanları doldur.'; return; }
+  if(!document.getElementById('kvkk').checked || !document.getElementById('priv').checked){ m.className='msg err'; m.textContent='KVKK ve aydınlatma onayı zorunlu.'; return; }
+
+  m.className='msg'; m.textContent='Kaydediliyor…';
+  const { data:{ user } } = await sb.auth.getUser();
+  const uid=user.id;
+
+  const p=await sb.from('employer_profiles').upsert({
+    user_id:uid,
+    membership_number:ME.membership_number,
+    first_name:need.fn,
+    last_name:need.ln,
+    company_name:need.company,
+    title:need.title
+  });
+
+  if(p.error){ m.className='msg err'; m.textContent='Hata: '+p.error.message; return; }
+
   await sb.from('employer_contacts').upsert({user_id:uid,phone:need.phone,email:need.eemail});
   await sb.from('consents').insert({user_id:uid,membership_number:ME.membership_number,kvkk_approved:true,privacy_notice_approved:true});
+
+  localStorage.removeItem('imt_pending_role');
+  pendingRole=null;
+  TAB='me';
   route();
 }
 
-/* ---------- APP NAV ---------- */
-function renderNav(){
-  nav.style.display='block';
-  document.getElementById('who').textContent=`${ME.first_name} · ${ROLE==='aday'?'Aday':'İlan Veren'}`;
-  const tabs=[['jobs','Fırsatlar'],['cands','Adaylar'],['requests','İstekler']];
-  if(ROLE==='isveren') tabs.splice(2,0,['me','İlanlarım']);
-  document.getElementById('tabs').innerHTML=tabs.map(([k,l])=>`<button class="tab ${k===TAB?'active':''}" data-t="${k}">${l}</button>`).join('');
-  document.querySelectorAll('#tabs .tab').forEach(b=>b.onclick=()=>{TAB=b.dataset.t;renderNav();renderTab();});
-}
-document.getElementById('logout').onclick=()=>sb.auth.signOut();
+/* ---------- LISTS ---------- */
+async function renderJobs(isPublic=false){
+  root.innerHTML=`
+    <div class="eyebrow">İlanlar</div>
+    <h2>Topluluk ilanları</h2>
+    <p class="sub">${isPublic ? 'İlanlar herkese görünür. Etkileşim ve ilan verme için giriş gerekir.' : 'Üyeler ilanları görür, talep bırakır ve iletişimi onay akışıyla açar.'}</p>
+    <div class="grid" id="g">Yükleniyor…</div>
+  `;
 
-function renderTab(){
-  if(TAB==='jobs') return renderJobs();
-  if(TAB==='cands') return renderCands();
-  if(TAB==='me') return renderMyJobs();
-  if(TAB==='requests') return renderRequests();
-}
-
-/* ---------- JOBS ---------- */
-async function renderJobs(){
-  root.innerHTML=`<div class="eyebrow">Opportunity DB</div><h2>Fırsatlar</h2><p class="sub">Tüm üyeler görür. İletişim, ilan verenin onayıyla açılır.</p><div class="grid" id="g">Yükleniyor…</div>`;
   const { data:jobs } = await sb.from('job_posts').select('*').eq('is_published',true).order('created_at',{ascending:false});
-  const { data:contacts } = await sb.from('employer_contacts').select('*'); // RLS: sadece izinli olanlar
+  const { data:contacts } = isPublic ? { data:[] } : await sb.from('employer_contacts').select('*');
   const cmap=Object.fromEntries((contacts||[]).map(c=>[c.user_id,c]));
-  const reqs=await myRequests();
+  const reqs=isPublic ? [] : await myRequests();
+
   const g=document.getElementById('g');
-  if(!jobs||!jobs.length){g.outerHTML='<div class="empty">Henüz ilan yok.</div>';return;}
+  if(!jobs || !jobs.length){ g.outerHTML=`<div class="empty">Henüz ilan yok.</div>`; return; }
+
   g.innerHTML=jobs.map(j=>{
     const open=cmap[j.employer_user_id];
     const r=reqs.find(x=>x.to_user===j.employer_user_id);
     let action;
-    if(j.employer_user_id===meId()) action='<span class="locked">Kendi ilanın</span>';
+
+    if(isPublic) action=`<button class="btn ghost sm" data-role="isveren">Etkileşim için giriş yap</button>`;
+    else if(j.employer_user_id===meId()) action=`<span class="locked">Kendi ilanın</span>`;
     else if(open) action=`<div class="contact">📞 ${esc(open.phone||'')} · ✉ ${esc(open.email||'')}</div>`;
-    else if(r&&r.status==='pending') action='<span class="st pending">İstek gönderildi</span>';
-    else if(r&&r.status==='declined') action='<span class="st declined">Reddedildi</span>';
+    else if(r && r.status==='pending') action=`<span class="st pending">İstek gönderildi</span>`;
+    else if(r && r.status==='declined') action=`<span class="st declined">Reddedildi</span>`;
     else action=`<button class="btn match sm" data-apply="${j.employer_user_id}" data-ctx="${j.id}">Başvur / İletişim iste</button>`;
-    return `<div class="entry"><div class="top"><div class="avatar" style="background:${aColor(j.company_name)}">${ini(j.company_name)}</div>
-      <div><h3>${esc(j.title)}</h3><div class="role">${esc(j.company_name)} · ${esc(j.position||'')}</div></div>
-      <span class="badge">${esc(j.work_type||'')}</span></div>
-      <p>${esc(j.description||'')}</p>
-      <div class="chips">${j.city?`<span class="chip">📍 ${esc(j.city)}</span>`:''}${j.deadline?`<span class="chip">son: ${esc(j.deadline)}</span>`:''}</div>
-      ${j.qualifications?`<p style="font-size:12.5px"><b>Nitelikler:</b> ${esc(j.qualifications)}</p>`:''}
-      <div class="foot">${action}</div></div>`;
+
+    return `
+      <div class="entry">
+        <div class="top">
+          <div class="avatar" style="background:${aColor(j.company_name)}">${ini(j.company_name)}</div>
+          <div>
+            <h3>${esc(j.title)}</h3>
+            <div class="role">${esc(j.company_name)} · ${esc(j.position||'')}</div>
+          </div>
+          <span class="badge">${esc(j.work_type||'İlan')}</span>
+        </div>
+        <p>${esc(j.description||'')}</p>
+        <div class="chips">
+          ${j.city ? `<span class="chip">📍 ${esc(j.city)}</span>` : ''}
+          ${j.deadline ? `<span class="chip">son: ${esc(j.deadline)}</span>` : ''}
+        </div>
+        ${j.qualifications ? `<p><b>Nitelikler:</b> ${esc(j.qualifications)}</p>` : ''}
+        <div class="foot">${action}</div>
+      </div>
+    `;
   }).join('');
-  bindApply();
+
+  isPublic ? bindLoginCtas() : bindApply();
 }
 
-/* ---------- CANDIDATES ---------- */
-async function renderCands(){
-  root.innerHTML=`<div class="eyebrow">Candidate DB</div><h2>Adaylar</h2><p class="sub">Tüm üyeler görür. İletişim, adayın onayıyla açılır.</p><div class="grid" id="g">Yükleniyor…</div>`;
+async function renderCands(isPublic=false){
+  root.innerHTML=`
+    <div class="eyebrow">Yetenek Havuzu</div>
+    <h2>Topluluğun profesyonel yetenek havuzu</h2>
+    <p class="sub">${isPublic ? 'Profil önizlemeleri herkese görünür. İletişim ve katılım için giriş gerekir.' : 'Üyeler profilleri tam görür; iletişim aday onayıyla açılır.'}</p>
+    <div class="grid" id="g">Yükleniyor…</div>
+  `;
+
   const { data:cands } = await sb.from('candidate_profiles').select('*').order('created_at',{ascending:false});
-  const { data:contacts } = await sb.from('candidate_contacts').select('*');
+  const { data:contacts } = isPublic ? { data:[] } : await sb.from('candidate_contacts').select('*');
   const cmap=Object.fromEntries((contacts||[]).map(c=>[c.user_id,c]));
-  const reqs=await myRequests();
+  const reqs=isPublic ? [] : await myRequests();
+
   const g=document.getElementById('g');
-  if(!cands||!cands.length){g.outerHTML='<div class="empty">Henüz aday yok.</div>';return;}
+  if(!cands || !cands.length){ g.outerHTML=`<div class="empty">Henüz aday yok.</div>`; return; }
+
   g.innerHTML=cands.map(c=>{
     const open=cmap[c.user_id];
     const r=reqs.find(x=>x.to_user===c.user_id);
     let action;
-    if(c.user_id===meId()) action='<span class="locked">Senin profilin</span>';
+    const displayName = isPublic ? `${esc(c.first_name)} ${esc((c.last_name||'')[0]||'')}.` : `${esc(c.first_name)} ${esc(c.last_name)}`;
+
+    if(isPublic) action=`<button class="btn ghost sm" data-role="aday">Katılmak için giriş yap</button>`;
+    else if(c.user_id===meId()) action=`<span class="locked">Senin profilin</span>`;
     else if(open) action=`<div class="contact">📞 ${esc(open.phone||'')} · ✉ ${esc(open.email||'')}</div>`;
-    else if(r&&r.status==='pending') action='<span class="st pending">İstek gönderildi</span>';
-    else if(r&&r.status==='declined') action='<span class="st declined">Reddedildi</span>';
+    else if(r && r.status==='pending') action=`<span class="st pending">İstek gönderildi</span>`;
+    else if(r && r.status==='declined') action=`<span class="st declined">Reddedildi</span>`;
     else action=`<button class="btn match sm" data-apply="${c.user_id}" data-ctx="aday">İletişim iste</button>`;
-    return `<div class="entry"><div class="top"><div class="avatar" style="background:${aColor(c.first_name)}">${ini(c.first_name+' '+c.last_name)}</div>
-      <div><h3>${esc(c.first_name)} ${esc(c.last_name)}</h3><div class="role">${esc(c.department||'')} · ${esc(c.school||'')}</div></div>
-      <span class="badge">${c.status==='ogrenci'?'Öğrenci':'Mezun'}</span></div>
-      <p>${esc(c.summary||'')}</p>
-      <div class="chips">${(c.skills||[]).map(s=>`<span class="chip">${esc(s)}</span>`).join('')}${c.cv_path?'<span class="chip">CV ✓</span>':''}</div>
-      <div class="foot">${action}</div></div>`;
+
+    return `
+      <div class="entry">
+        <div class="top">
+          <div class="avatar" style="background:${aColor(c.first_name)}">${ini(c.first_name+' '+c.last_name)}</div>
+          <div>
+            <h3>${displayName}</h3>
+            <div class="role">${esc(c.department||'İşletme Mühendisliği')}</div>
+          </div>
+          <span class="badge">${c.status==='ogrenci'?'Öğrenci':'Mezun'}</span>
+        </div>
+        <p>${esc(c.summary||'')}</p>
+        <div class="chips">
+          ${(c.skills||[]).map(s=>`<span class="chip">${esc(s)}</span>`).join('')}
+          ${c.cv_path && !isPublic ? `<span class="chip">CV ✓</span>` : ''}
+        </div>
+        <div class="foot">${action}</div>
+      </div>
+    `;
   }).join('');
-  bindApply();
+
+  isPublic ? bindLoginCtas() : bindApply();
+}
+
+function bindLoginCtas(){
+  document.querySelectorAll('[data-role]').forEach(b=>{
+    b.onclick=()=>showLoginPrompt(b.dataset.role);
+  });
 }
 
 function bindApply(){
   document.querySelectorAll('[data-apply]').forEach(b=>b.onclick=async()=>{
-    b.disabled=true;b.textContent='Gönderiliyor…';
+    b.disabled=true; b.textContent='Gönderiliyor…';
     const to=b.dataset.apply, ctx=b.dataset.ctx;
     const ins=await sb.from('contact_requests').insert({from_user:meId(),to_user:to,context:ctx});
-    if(ins.error){b.disabled=false;b.textContent='Tekrar dene';alert('Hata: '+ins.error.message);return;}
-    // e-posta bildirimi (opsiyonel fonksiyon; yoksa sessiz geçer)
-    try{ await fetch('/.netlify/functions/notify',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({toUserId:to,fromName:ME.first_name+' '+ME.last_name})}); }catch(e){}
+    if(ins.error){ b.disabled=false; b.textContent='Tekrar dene'; alert('Hata: '+ins.error.message); return; }
+    try{
+      await fetch('/.netlify/functions/notify',{
+        method:'POST',
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({toUserId:to,fromName:ME.first_name+' '+ME.last_name})
+      });
+    }catch(e){}
     renderTab();
   });
 }
 
-/* ---------- REQUESTS INBOX ---------- */
+/* ---------- REQUESTS ---------- */
 async function myRequests(){
   const { data } = await sb.from('contact_requests').select('*');
-  return data||[];
+  return data || [];
 }
+
 async function renderRequests(){
-  root.innerHTML=`<div class="eyebrow">İstekler</div><h2>İletişim istekleri</h2><p class="sub">Sana gelenleri onayla/reddet; onayladığında iletişiminiz karşılıklı açılır.</p><div id="in"></div><h3 style="margin-top:26px;font-size:15px">Gönderdiklerin</h3><div id="out"></div>`;
+  root.innerHTML=`
+    <div class="eyebrow">İstekler</div>
+    <h2>İletişim istekleri</h2>
+    <p class="sub">Sana gelenleri onayla veya reddet; onay sonrası iletişim karşılıklı açılır.</p>
+    <div id="in"></div>
+    <h3 style="margin-top:26px;font-size:16px">Gönderdiklerin</h3>
+    <div id="out"></div>
+  `;
+
   const reqs=await myRequests();
   const incoming=reqs.filter(r=>r.to_user===meId());
   const outgoing=reqs.filter(r=>r.from_user===meId());
-  document.getElementById('in').innerHTML = incoming.length?incoming.map(r=>{
-    if(r.status==='pending') return `<div class="reqrow"><b>Bir üye seninle iletişime geçmek istiyor</b><div style="margin-left:auto;display:flex;gap:8px"><button class="btn match sm" data-ok="${r.id}">Onayla</button><button class="btn dim sm" data-no="${r.id}">Reddet</button></div></div>`;
-    return `<div class="reqrow"><span>İstek</span><span class="st ${r.status}">${r.status==='approved'?'Onayladın':'Reddettin'}</span></div>`;
-  }).join(''):'<div class="empty">Gelen istek yok.</div>';
-  document.getElementById('out').innerHTML = outgoing.length?outgoing.map(r=>`<div class="reqrow"><span>İletişim isteği gönderildi</span><span class="st ${r.status}">${({pending:'Bekliyor',approved:'Onaylandı',declined:'Reddedildi'})[r.status]}</span></div>`).join(''):'<div class="empty">Gönderdiğin istek yok.</div>';
+
+  document.getElementById('in').innerHTML = incoming.length
+    ? incoming.map(r=>{
+        if(r.status==='pending'){
+          return `<div class="reqrow"><b>Bir üye seninle iletişime geçmek istiyor</b><div style="margin-left:auto;display:flex;gap:8px"><button class="btn match sm" data-ok="${r.id}">Onayla</button><button class="btn dim sm" data-no="${r.id}">Reddet</button></div></div>`;
+        }
+        return `<div class="reqrow"><span>İstek</span><span class="st ${r.status}">${r.status==='approved'?'Onayladın':'Reddettin'}</span></div>`;
+      }).join('')
+    : `<div class="empty">Gelen istek yok.</div>`;
+
+  document.getElementById('out').innerHTML = outgoing.length
+    ? outgoing.map(r=>`<div class="reqrow"><span>İletişim isteği gönderildi</span><span class="st ${r.status}">${({pending:'Bekliyor',approved:'Onaylandı',declined:'Reddedildi'})[r.status]}</span></div>`).join('')
+    : `<div class="empty">Gönderdiğin istek yok.</div>`;
+
   document.querySelectorAll('[data-ok]').forEach(b=>b.onclick=()=>decide(b.dataset.ok,'approved'));
   document.querySelectorAll('[data-no]').forEach(b=>b.onclick=()=>decide(b.dataset.no,'declined'));
 }
+
 async function decide(id,status){
   const { error }=await sb.from('contact_requests').update({status,decided_at:new Date().toISOString()}).eq('id',id);
-  if(error){alert('Hata: '+error.message);return;}
+  if(error){ alert('Hata: '+error.message); return; }
   renderRequests();
 }
 
-/* ---------- EMPLOYER: MY JOBS ---------- */
+/* ---------- EMPLOYER JOBS ---------- */
 async function renderMyJobs(){
-  root.innerHTML=`<div class="eyebrow">İlanlarım</div><h2>İlan ver & yönet</h2>
-    <div class="card" style="max-width:640px;margin-bottom:24px">
+  root.innerHTML=`
+    <div class="eyebrow">İlan Yönetimi</div>
+    <h2>İlan ver</h2>
+    <div class="card" style="max-width:700px;margin-bottom:24px">
       <div class="field"><label class="req">İlan başlığı</label><input id="j_title"></div>
-      <div class="row2"><div class="field"><label class="req">Kurum / Şirket</label><input id="j_comp" value="${esc('')}"></div><div class="field"><label>Pozisyon</label><input id="j_pos"></div></div>
-      <div class="row2"><div class="field"><label>Çalışma tipi</label><select id="j_type"><option>Tam zamanlı</option><option>Yarı zamanlı</option><option>Staj</option><option>Remote</option><option>Hibrit</option><option>Ofis</option></select></div><div class="field"><label>Şehir</label><input id="j_city"></div></div>
+      <div class="row2">
+        <div class="field"><label class="req">Kurum / Şirket</label><input id="j_comp"></div>
+        <div class="field"><label>Pozisyon</label><input id="j_pos"></div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Çalışma tipi</label>
+          <select id="j_type">
+            <option>Tam zamanlı</option>
+            <option>Yarı zamanlı</option>
+            <option>Staj</option>
+            <option>Remote</option>
+            <option>Hibrit</option>
+            <option>Ofis</option>
+          </select>
+        </div>
+        <div class="field"><label>Şehir</label><input id="j_city"></div>
+      </div>
       <div class="field"><label class="req">Açıklama</label><textarea id="j_desc"></textarea></div>
       <div class="field"><label>Aranan nitelikler</label><textarea id="j_qual"></textarea></div>
       <div class="field"><label>Son başvuru tarihi</label><input id="j_dl" type="date"></div>
-      <button class="btn primary" id="j_save" style="width:100%">İlanı Yayınla</button><div class="msg" id="jm"></div>
+      <button class="btn primary" id="j_save" style="width:100%">İlanı Yayınla</button>
+      <div class="msg" id="jm"></div>
     </div>
-    <div class="grid" id="myg"></div>`;
+    <div class="grid" id="myg"></div>
+  `;
+
   document.getElementById('j_save').onclick=postJob;
   const { data:mine }=await sb.from('job_posts').select('*').eq('employer_user_id',meId()).order('created_at',{ascending:false});
-  document.getElementById('myg').innerHTML=(mine||[]).map(j=>`<div class="entry"><div class="top"><div><h3>${esc(j.title)}</h3><div class="role">${esc(j.company_name)}</div></div><span class="badge">${esc(j.work_type||'')}</span></div><p>${esc(j.description||'')}</p><div class="foot"><button class="btn dim sm" data-del="${j.id}">Sil</button></div></div>`).join('')||'<div class="empty">Henüz ilanın yok.</div>';
-  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(confirm('İlan silinsin mi?')){await sb.from('job_posts').delete().eq('id',b.dataset.del);renderMyJobs();}});
+
+  document.getElementById('myg').innerHTML=(mine||[]).map(j=>`
+    <div class="entry">
+      <div class="top">
+        <div><h3>${esc(j.title)}</h3><div class="role">${esc(j.company_name)}</div></div>
+        <span class="badge">${esc(j.work_type||'İlan')}</span>
+      </div>
+      <p>${esc(j.description||'')}</p>
+      <div class="foot"><button class="btn dim sm" data-del="${j.id}">Sil</button></div>
+    </div>
+  `).join('') || `<div class="empty">Henüz ilanın yok.</div>`;
+
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{
+    if(confirm('İlan silinsin mi?')){
+      await sb.from('job_posts').delete().eq('id',b.dataset.del);
+      renderMyJobs();
+    }
+  });
 }
+
 async function postJob(){
-  const v=id=>document.getElementById(id).value.trim(); const m=document.getElementById('jm');
-  if(!v('j_title')||!v('j_comp')||!v('j_desc')){m.className='msg err';m.textContent='Başlık, kurum ve açıklama zorunlu.';return;}
-  m.className='msg';m.textContent='Yayınlanıyor…';
-  const { error }=await sb.from('job_posts').insert({employer_user_id:meId(),title:v('j_title'),company_name:v('j_comp'),position:v('j_pos'),work_type:v('j_type'),city:v('j_city'),description:v('j_desc'),qualifications:v('j_qual'),deadline:v('j_dl')||null});
-  if(error){m.className='msg err';m.textContent='Hata: '+error.message;return;}
+  const v=id=>document.getElementById(id).value.trim();
+  const m=document.getElementById('jm');
+
+  if(!v('j_title') || !v('j_comp') || !v('j_desc')){
+    m.className='msg err'; m.textContent='Başlık, kurum ve açıklama zorunlu.'; return;
+  }
+
+  m.className='msg'; m.textContent='Yayınlanıyor…';
+  const { error }=await sb.from('job_posts').insert({
+    employer_user_id:meId(),
+    title:v('j_title'),
+    company_name:v('j_comp'),
+    position:v('j_pos'),
+    work_type:v('j_type'),
+    city:v('j_city'),
+    description:v('j_desc'),
+    qualifications:v('j_qual'),
+    deadline:v('j_dl') || null
+  });
+
+  if(error){ m.className='msg err'; m.textContent='Hata: '+error.message; return; }
   renderMyJobs();
 }
 
-/* ---------- util ---------- */
+/* ---------- UTIL ---------- */
 let _uid=null;
 function meId(){ return _uid; }
-sb.auth.getUser().then(({data})=>{ if(data.user)_uid=data.user.id; });
+sb.auth.getUser().then(({data})=>{ if(data.user) _uid=data.user.id; });
 </script>
 </body>
 </html>
