@@ -220,10 +220,14 @@ const ini=n=>(n||'?').split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase(
 const sk=s=>(s||'').split(',').map(x=>x.trim()).filter(Boolean);
 const memberLabel=()=>HAS_CAND&&HAS_EMP?'Aday + İlan Veren':HAS_CAND?'Aday':HAS_EMP?'İlan Veren':'Üye';
 
-sb.auth.onAuthStateChange(()=>route());
+sb.auth.onAuthStateChange((event)=>{
+  if(event==='TOKEN_REFRESHED') return;
+  route();
+});
 route();
 
 async function route(){
+ try{
   const { data:{ session } } = await sb.auth.getSession();
 
   if(!session){
@@ -269,9 +273,13 @@ async function route(){
     return viewOnboard();
   }
 
-  renderMemberNav();
+   renderMemberNav();
   if (TAB === 'home') return viewLanding(true);
   return renderTab();
+ }catch(e){
+  root.innerHTML=`<div class="center"><div class="card">
+    <h2>Bir sorun oluştu</h2><p class="sub">Sayfayı yenile.</p></div></div>`;
+ }
 }
 
 /* ---------- NAV ---------- */
@@ -560,6 +568,7 @@ const consentBlock=`
 
 /* ---------- FORMS ---------- */
 function formCandidate(){
+  localStorage.removeItem('imt_pending_role'); pendingRole=null;
   root.innerHTML=`
     <div style="max-width:680px;margin:0 auto">
       <div class="eyebrow">Aday Profili</div>
@@ -653,6 +662,7 @@ async function saveCandidate(){
 }
 
 function formEmployer(){
+  localStorage.removeItem('imt_pending_role'); pendingRole=null;
   root.innerHTML=`
     <div style="max-width:680px;margin:0 auto">
       <div class="eyebrow">İlan Veren Profili</div>
@@ -679,7 +689,6 @@ function formEmployer(){
   `;
   document.getElementById('save').onclick=saveEmployer;
 }
-
 async function saveEmployer(){
   const v=id=>document.getElementById(id).value.trim();
   const m=document.getElementById('m');
@@ -862,25 +871,27 @@ function bindCandidateProfileActions(){
   });
 }
 
-function bindApply(){
-  document.querySelectorAll('[data-apply]').forEach(b=>b.onclick=async()=>{
-    b.disabled=true; b.textContent='Gönderiliyor…';
-    const to=b.dataset.apply, ctx=b.dataset.ctx;
-    const ins=await sb.from('contact_requests').insert({from_user:meId(),to_user:to,context:ctx});
-    if(ins.error){ b.disabled=false; b.textContent='Tekrar dene'; alert('Hata: '+ins.error.message); return; }
-    try{
-      await fetch('/.netlify/functions/notify',{
-        method:'POST',
-        headers:{'content-type':'application/json'},
-        body:JSON.stringify({
-          toUserId:to,
-          fromUserId:meId(),
-          fromName:ME.first_name+' '+ME.last_name,
-          context:ctx
-        })
-      });
-    }catch(e){}
-    renderTab();
+function bindCandidateProfileActions(){
+  document.querySelectorAll('[data-del-cand]').forEach(b=>b.onclick=async()=>{
+    if(!confirm('Yetenek havuzundaki paylaşımın silinsin mi?')) return;
+    b.disabled=true; b.textContent='Siliniyor…';
+    const uid=meId();
+    await sb.from('candidate_contacts').delete().eq('user_id', uid);
+    await sb.storage.from('cvs').remove([`${uid}/cv.pdf`]);
+    const { data:del, error } = await sb
+      .from('candidate_profiles')
+      .delete()
+      .eq('user_id', uid)
+      .select();
+    if(error){
+      b.disabled=false; b.textContent='Paylaşımı sil';
+      alert('Silinemedi: '+error.message); return;
+    }
+    if(!del || del.length===0){
+      b.disabled=false; b.textContent='Paylaşımı sil';
+      alert('Silinemedi: yetki yok (DELETE policy hâlâ eksik).'); return;
+    }
+    TAB='cands'; route();
   });
 }
 
@@ -1011,7 +1022,8 @@ async function postJob(){
     city:v('j_city'),
     description:v('j_desc'),
     qualifications:v('j_qual'),
-    deadline:v('j_dl') || null
+    deadline:v('j_dl') || null,
+    is_published:true
   });
 
   if(error){ m.className='msg err'; m.textContent='Hata: '+error.message; return; }
