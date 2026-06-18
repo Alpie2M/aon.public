@@ -225,7 +225,21 @@ sb.auth.onAuthStateChange((event)=>{
   route();
 });
 route();
-
+document.addEventListener('click', async (e)=>{
+  const b = e.target.closest('[data-apply]');
+  if(!b || b.disabled) return;
+  b.disabled=true; b.textContent='Gönderiliyor…';
+  const to=b.dataset.apply, ctx=b.dataset.ctx;
+  const ins=await sb.from('contact_requests').insert({from_user:meId(),to_user:to,context:ctx});
+  if(ins.error){ b.disabled=false; b.textContent='Tekrar dene'; alert('Hata: '+ins.error.message); return; }
+  try{
+    await fetch('/.netlify/functions/notify',{
+      method:'POST', headers:{'content-type':'application/json'},
+      body:JSON.stringify({toUserId:to,fromUserId:meId(),fromName:ME.first_name+' '+ME.last_name,context:ctx})
+    });
+  }catch(_){}
+  renderTab();
+});
 async function route(){
  try{
   const { data:{ session } } = await sb.auth.getSession();
