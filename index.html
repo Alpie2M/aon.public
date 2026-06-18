@@ -862,7 +862,7 @@ function bindLoginCtas(){
     b.onclick=()=>showLoginPrompt(b.dataset.role);
   });
 }
-
+function bindApply(){}   // delege handler işi yapıyor; bu sadece çağrıları boş geçirir
 function bindCandidateProfileActions(){
   document.querySelectorAll('[data-del-cand]').forEach(b=>b.onclick=async()=>{
     if(!confirm('Yetenek havuzundaki paylaşımın silinsin mi?')) return;
