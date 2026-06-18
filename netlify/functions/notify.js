@@ -82,8 +82,7 @@ export async function handler(event) {
     const send = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: "Bearer " + process.env.RESEND_API_KEY, "content-type": "application/json" },
-      body: JSON.stringify({ from: process.env.FROM_EMAIL, to: [toEmail], subject, html }),
-    });
+      body: JSON.stringify({ from: `IMT Kariyer <${process.env.FROM_EMAIL}>`, to: [toEmail], subject, html }),    });
     if (!send.ok) return { statusCode: 502, body: JSON.stringify({ error: await send.text() }) };
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };
   } catch (e) {
