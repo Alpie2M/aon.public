@@ -252,11 +252,12 @@ async function route(){
 
   _uid=session.user.id;
 
-  const { data:mem, error:memberErr } = await sb
+const { data:mem, error:memberErr } = await sb
     .from('community_members')
     .select('*')
+    .limit(1)
     .maybeSingle();
-
+   
   if(memberErr) throw memberErr;
   if(!mem){
     renderPublicNav();
