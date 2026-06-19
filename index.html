@@ -802,8 +802,7 @@ async function renderJobs(isPublic=false){
           ${j.deadline ? `<span class="chip">son: ${esc(j.deadline)}</span>` : ''}
         </div>
         ${j.qualifications ? `<p><b>Nitelikler:</b> ${esc(j.qualifications)}</p>` : ''}
-        <div class="foot">${action}</div>
-      </div>
+        <div class="foot">${action}${j.apply_url?`<a class="btn ghost sm" href="${esc(j.apply_url)}" target="_blank" rel="noopener" style="text-decoration:none">İlana git →</a>`:''}</div>      </div>
     `;
   }).join('');
 
@@ -979,6 +978,7 @@ async function renderMyJobs(){
       <div class="field"><label class="req">Açıklama</label><textarea id="j_desc"></textarea></div>
       <div class="field"><label>Aranan nitelikler</label><textarea id="j_qual"></textarea></div>
       <div class="field"><label>Son başvuru tarihi</label><input id="j_dl" type="date"></div>
+      <div class="field"><label>Başvuru / ilan linki (opsiyonel)</label><input id="j_url" placeholder="https://..."></div>
       <button class="btn primary" id="j_save" style="width:100%">İlanı Yayınla</button>
       <div class="msg" id="jm"></div>
     </div>
@@ -1034,6 +1034,7 @@ async function postJob(){
     description:v('j_desc'),
     qualifications:v('j_qual'),
     deadline:v('j_dl') || null,
+    apply_url:v('j_url') || null,
     is_published:true
   });
 
