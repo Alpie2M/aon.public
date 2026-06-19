@@ -573,11 +573,23 @@ function viewOnboard(){
 }
 
 const consentBlock=`
-  <div class="note">KVKK / Aydınlatma metni burada topluluğun resmi metniyle degistirilmeli.</div>
-  <div class="checks">
-    <label><input type="checkbox" id="kvkk"> KVKK metnini okudum ve onaylıyorum</label>
-    <label><input type="checkbox" id="priv"> Aydınlatma metnini okudum ve onaylıyorum</label>
+  <div class="note" style="max-height:200px;overflow:auto;text-align:left;line-height:1.55">
+    <p style="margin:0 0 8px"><b>IMT Kariyer KVKK Aydınlatma Metni</b></p>
+    <p>Bu metin, 6698 sayılı KVKK uyarınca IMT Kariyer kullanıcılarının kişisel verilerinin işlenmesine ilişkin hazırlanmıştır.</p>
+    <p><b>1. Veri Sorumlusu:</b> Kişisel verileriniz, veri sorumlusu sıfatıyla İTÜ İşletme Mühendisliği Topluluğu tarafından işlenmektedir.</p>
+    <p><b>2. Platform:</b> Yalnızca Topluluk üye listesindeki e-postalarla erişilen, magic link girişli, üyelere özel kariyer ağı/yetenek havuzu/ilan platformudur. Telefon ve e-posta gibi iletişim bilgileri diğer kullanıcılara kapalıdır; yalnızca karşılıklı onay sonrası açılır.</p>
+    <p><b>3. İşlenen Veriler:</b> Aday: ad, soyad, üyelik no, öğrenci/mezun durumu, telefon, e-posta, mezuniyet yılı, şehir, profil özeti, yetenekler, LinkedIn, portfolyo, CV. İlan veren: ad, soyad, telefon, e-posta, kurum/şirket, pozisyon. Otomatik: giriş e-postası, oturum ve işlem kayıtları, iletişim isteği kayıtları. Özel nitelikli veri talep edilmez; CV/profile bu tür bilgi eklememeniz önerilir.</p>
+    <p><b>4. Amaçlar:</b> Üyelik ve erişim, güvenli giriş, profil oluşturma, yetenek havuzu ve ilan eşleştirme, kariyer amaçlı iletişim, iletişim bilgisinin yalnızca onay sonrası açılması, güvenlik ve işlem kayıtları, KVKK başvurularının değerlendirilmesi, hukuki yükümlülükler.</p>
+    <p><b>5. Hukuki Sebep:</b> Verileriniz KVKK m.5 kapsamında açık rızanıza dayanılarak işlenir. Rıza vermemeniz hâlinde platformun ilgili özelliklerinden yararlanamayabilirsiniz. Rızanızı dilediğiniz zaman geri alabilirsiniz; geri alma, o ana kadarki işlemenin hukuka uygunluğunu etkilemez.</p>
+    <p><b>6. Toplanma Yöntemi:</b> Giriş e-postanız, profil oluştururken girdiğiniz bilgiler, CV yüklemeniz, iletişim isteği işlemleriniz ve otomatik oturum/işlem kayıtları yoluyla elektronik ortamda toplanır.</p>
+    <p><b>7. Aktarım ve Yurt Dışı Aktarım:</b> Aday profil bilgileri Topluluk içi yetkili/ilan veren kullanıcılarca görülebilir; iletişim bilgileri yalnızca onay sonrası açılır. Teknik altyapı için veriler şu hizmet sağlayıcılarla paylaşılır: Supabase (veritabanı/depolama, İrlanda), Netlify (barındırma, ABD), Resend (e-posta, ABD). Bu nedenle verileriniz AB ve ABD başta olmak üzere yurt dışına aktarılmaktadır. Alıcı ülkelerdeki koruma düzeyi Türkiye'den farklı olabilir; bu aktarım açık rızanıza dayanır.</p>
+    <p><b>8. Saklama ve Silme:</b> Verileriniz platformu kullandığınız ve amaç devam ettiği sürece saklanır. Profilinizi istediğiniz zaman silebilirsiniz; silindiğinde profil, CV ve iletişim verileri silinir. Talep, üyelik sonu, amacın ortadan kalkması veya rızanın geri alınması hâlinde verileriniz silinir, yok edilir veya anonimleştirilir. Hukuki yükümlülük gerektiren sınırlı kayıtlar mevzuattaki süreler boyunca saklanabilir.</p>
+    <p><b>9. Haklarınız (KVKK m.11):</b> İşlenip işlenmediğini öğrenme, bilgi talep etme, amacını öğrenme, aktarıldığı üçüncü kişileri bilme, düzeltme, silme/yok etme, bu işlemlerin üçüncü kişilere bildirilmesini isteme, otomatik analize itiraz ve zararın giderilmesini talep etme haklarına sahipsiniz.</p>
+    <p><b>10. Başvuru:</b> KVKK taleplerinizi başvuru formu üzerinden Topluluğa iletebilirsiniz. Başvurularınız yasal süreler içinde sonuçlandırılır.</p>
   </div>
+  <div class="checks">
+    <label><input type="checkbox" id="kvkk"> Yukarıdaki KVKK Aydınlatma Metni'ni okudum ve anladım.</label>
+    <label><input type="checkbox" id="priv"> IMT Kariyer KVKK Aydınlatma Metni'ni okudum; aday/ilan veren profilimde yer alan kişisel verilerimin, CV dosyamın, iletişim bilgilerimin, giriş ve oturum kayıtlarımın İTÜ İşletme Mühendisliği Topluluğu tarafından IMT Kariyer'in topluluk içi kariyer ağı, yetenek havuzu, iş ilanı eşleştirme ve karşılıklı onaya dayalı iletişim süreçlerinin yürütülmesi amacıyla işlenmesine açık rıza veriyorum. Ayrıca, platformun Supabase, Netlify ve Resend altyapıları üzerinden çalışması nedeniyle kişisel verilerimin veritabanı, dosya depolama, web barındırma ve e-posta gönderimi amaçlarıyla İrlanda/Avrupa Birliği ve Amerika Birleşik Devletleri başta olmak üzere yurt dışındaki hizmet sağlayıcılara aktarılmasına; yurt dışındaki veri koruma düzeyinin Türkiye'deki düzenlemelerden farklı olabileceği konusunda bilgilendirilmiş olarak ayrıca açık rıza veriyorum.</label>  </div>
 `;
 
 /* ---------- FORMS ---------- */
