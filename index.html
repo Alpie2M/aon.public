@@ -766,7 +766,7 @@ async function renderJobs(isPublic=false){
 
     if(isPublic) action=`<button class="btn ghost sm" data-role="isveren">Etkileşim için giriş yap</button>`;
     else if(j.employer_user_id===meId()) action=`<span class="locked">Kendi ilanın</span>`;
-    else if(open) action=`<div class="contact">📞 ${esc(open.phone||'')} · ✉ ${esc(open.email||'')}</div>`;
+    else if(open) action=`<div class="contact">📞 ${esc(open.phone||'')} · ✉ ${esc(open.email||'')}</div>${c.cv_path?`<button class="btn ghost sm" data-cv="${esc(c.cv_path)}" style="margin-top:8px">CV indir</button>`:''}`;
     else if(r && r.status==='pending') action=`<span class="st pending">İstek gönderildi</span>`;
     else if(r && r.status==='declined') action=`<span class="st declined">Reddedildi</span>`;
     else action=`<button class="btn match sm" data-apply="${j.employer_user_id}" data-ctx="${j.id}">Başvur / İletişim iste</button>`;
@@ -794,7 +794,13 @@ async function renderJobs(isPublic=false){
 
   isPublic ? bindLoginCtas() : bindApply();
 }
-
+document.addEventListener('click', async (e)=>{
+  const b = e.target.closest('[data-cv]');
+  if(!b) return;
+  const { data, error } = await sb.storage.from('cvs').createSignedUrl(b.dataset.cv, 120);
+  if(error){ alert('CV açılamadı: '+error.message); return; }
+  window.open(data.signedUrl, '_blank');
+});
 async function renderCands(isPublic=false){
   const memberCta=isPublic ? '' : `<div class="previewActions"><button class="btn ${HAS_CAND?'ghost':'primary'} sm" id="cands-cta">${HAS_CAND?'Profilimi düzenle':'Yetenek havuzuna katıl'}</button></div>`;
   root.innerHTML=`
